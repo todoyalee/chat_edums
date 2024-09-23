@@ -37,7 +37,7 @@ class _CardPageState extends State<CardPage> {
           ElevatedButton(
             onPressed: () {
               // Navigate to login screen
-              Get.toNamed('/login');
+              Get.toNamed('/message');
             },
             child: Text('MESSANGER'),
           ),

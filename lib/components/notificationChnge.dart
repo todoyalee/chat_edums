@@ -9,7 +9,7 @@ class Notificationchnge extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: 12,
-      backgroundColor: Colors.redAccent,
+      backgroundColor: Colors.blue,
       child: Text(
         notificationCount,
         style: const TextStyle(color: Colors.white, fontSize: 14),
