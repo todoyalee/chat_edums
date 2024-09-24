@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:chat_edums/components/notificationChnge.dart';
 import 'package:chat_edums/components/messageCard.dart'; // Make sure to import the file where `CustomCard` is defined
 import 'package:get/get.dart';
+import 'package:chat_edums/views/chatScreen.dart';
 
 void main() {
   runApp(const message());
@@ -34,7 +35,6 @@ class _messageState extends State<message> {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   color: Colors.blueAccent,
                   child: Row(
-                    //    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
                         onTap: () {},
@@ -44,93 +44,131 @@ class _messageState extends State<message> {
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(
-                        width: 95,
-                      ),
+                      SizedBox(width: 95),
                       const Text(
                         'Messages',
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
-                      SizedBox(
-                        width: 210,
-                      ),
+                      SizedBox(width: 210),
                       const Icon(Icons.notifications, color: Colors.white),
                     ],
                   ),
                 ),
                 const SizedBox(height: 10),
-                const CustomCard(
-                  image: "images/schooll.png",
-                  text: "Scolarité",
-                  date: "12/10/2023",
-                  notificationCount: "5",
+
+                // Wrap each CustomCard in GestureDetector for navigation
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ChatScreen(headerText: "Scolarité"),
+                      ),
+                    );
+                  },
+                  child: const CustomCard(
+                    image: "images/schooll.png",
+                    text: "Scolarité",
+                    date: "12/10/2023",
+                    notificationCount: "5",
+                  ),
                 ),
                 const SizedBox(height: 20),
-                CustomCard(
-                  image: "images/schooll.png",
-                  text: "Administration",
-                  date: "12/10/2023",
-                  notificationCount: "2",
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ChatScreen(headerText: "Administration"),
+                      ),
+                    );
+                  },
+                  child: CustomCard(
+                    image: "images/schooll.png",
+                    text: "Administration",
+                    date: "12/10/2023",
+                    notificationCount: "2",
+                  ),
                 ),
                 const SizedBox(height: 20),
-                CustomCard(
-                  image: "images/schooll.png",
-                  text: "Cantine",
-                  date: "12/10/2023",
-                  notificationCount: "7",
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatScreen(headerText: "Cantine"),
+                      ),
+                    );
+                  },
+                  child: CustomCard(
+                    image: "images/schooll.png",
+                    text: "Cantine",
+                    date: "12/10/2023",
+                    notificationCount: "7",
+                  ),
                 ),
                 const SizedBox(height: 20),
-                CustomCard(
-                  image: "images/schooll.png",
-                  text: "Transport",
-                  date: "12/10/2023",
-                  notificationCount: "3",
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ChatScreen(headerText: "Transport"),
+                      ),
+                    );
+                  },
+                  child: CustomCard(
+                    image: "images/schooll.png",
+                    text: "Transport",
+                    date: "12/10/2023",
+                    notificationCount: "3",
+                  ),
                 ),
                 const SizedBox(height: 20),
-                CustomCard(
-                  image: "images/schooll.png",
-                  text: "Francais",
-                  date: "12/10/2023",
-                  notificationCount: "3",
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ChatScreen(headerText: "Francais"),
+                      ),
+                    );
+                  },
+                  child: CustomCard(
+                    image: "images/schooll.png",
+                    text: "Francais",
+                    date: "12/10/2023",
+                    notificationCount: "3",
+                  ),
                 ),
                 const SizedBox(height: 20),
-                CustomCard(
-                  image: "images/schooll.png",
-                  text: "Anglais",
-                  date: "12/10/2023",
-                  notificationCount: "3",
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatScreen(headerText: "Anglais"),
+                      ),
+                    );
+                  },
+                  child: CustomCard(
+                    image: "images/schooll.png",
+                    text: "Anglais",
+                    date: "12/10/2023",
+                    notificationCount: "3",
+                  ),
                 ),
                 SizedBox(
                   height: 50,
                   width: 250,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      width: 200,
-                      height: 50,
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 25),
-                          Icon(Icons.message, color: Colors.white),
-                          const SizedBox(width: 25),
-                          Text(
-                            'Add Message',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                // Add Message button here
               ],
-            ),
+            )
           ]),
         ));
   }
