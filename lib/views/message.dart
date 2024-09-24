@@ -52,7 +52,7 @@ class _messageState extends State<message> {
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                       SizedBox(
-                        width: 230,
+                        width: 210,
                       ),
                       const Icon(Icons.notifications, color: Colors.white),
                     ],
