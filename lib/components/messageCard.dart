@@ -30,22 +30,13 @@ class CustomCard extends StatelessWidget {
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          SizedBox(
-            width: 20,
-          ),
-          Image.asset('images/schooll.png'),
-          SizedBox(
-            width: 100,
-          ),
+          Image.asset('assets/schooll.png'),
           Text(
             text,
             style: const TextStyle(
-                fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            width: 80,
+                fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
           ),
           Column(
             children: [

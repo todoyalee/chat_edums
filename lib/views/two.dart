@@ -20,7 +20,7 @@ class _CardPageState extends State<CardPage> {
             child: Container(
               height: 100,
               width: 100,
-              child: Image.asset("images/stand.jpg"),
+              child: Image.asset("assets/stand.jpg"),
             ),
           ),
           SizedBox(height: 20),

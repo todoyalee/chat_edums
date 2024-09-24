@@ -21,39 +21,48 @@ class _messageState extends State<message> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.blue,
+            leading: IconButton(
+              icon: Icon(
+                Icons.chevron_left,
+                size: 40,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            title: Row(
+              children: [
+                Text(
+                  "Messages",
+                  style: TextStyle(color: Colors.white),
+                ),
+                Spacer(),
+                IconButton(
+                  icon: Icon(
+                    Icons.notifications,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ),
           body: Stack(children: [
             Positioned.fill(
               child: Image.asset(
-                'images/back.jpg',
+                'assets/back.jpg',
                 fit: BoxFit.cover,
               ),
             ),
             Column(
               children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  color: Colors.blueAccent,
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {},
-                        child: Icon(
-                          size: 35,
-                          Icons.chevron_left,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(width: 95),
-                      const Text(
-                        'Messages',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                      SizedBox(width: 210),
-                      const Icon(Icons.notifications, color: Colors.white),
-                    ],
-                  ),
+                SizedBox(
+                  height: 4,
                 ),
+
                 const SizedBox(height: 10),
 
                 // Wrap each CustomCard in GestureDetector for navigation
@@ -68,7 +77,7 @@ class _messageState extends State<message> {
                     );
                   },
                   child: const CustomCard(
-                    image: "images/schooll.png",
+                    image: "assets/schooll.png",
                     text: "Scolarité",
                     date: "12/10/2023",
                     notificationCount: "5",
@@ -86,7 +95,7 @@ class _messageState extends State<message> {
                     );
                   },
                   child: CustomCard(
-                    image: "images/schooll.png",
+                    image: "assets/schooll.png",
                     text: "Administration",
                     date: "12/10/2023",
                     notificationCount: "2",
@@ -103,7 +112,7 @@ class _messageState extends State<message> {
                     );
                   },
                   child: CustomCard(
-                    image: "images/schooll.png",
+                    image: "assets/schooll.png",
                     text: "Cantine",
                     date: "12/10/2023",
                     notificationCount: "7",
@@ -121,7 +130,7 @@ class _messageState extends State<message> {
                     );
                   },
                   child: CustomCard(
-                    image: "images/schooll.png",
+                    image: "assets/schooll.png",
                     text: "Transport",
                     date: "12/10/2023",
                     notificationCount: "3",
@@ -166,9 +175,36 @@ class _messageState extends State<message> {
                   height: 50,
                   width: 250,
                 ),
-                // Add Message button here
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      width: 85,
+                    ),
+                    Container(
+                      width: 200,
+                      height: 50,
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 25),
+                          Icon(Icons.message, color: Colors.white),
+                          const SizedBox(width: 25),
+                          Text(
+                            'Add Message',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ],
-            )
+            ),
           ]),
         ));
   }
