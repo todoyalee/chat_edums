@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart'; // For formatting the date
+import 'package:intl/intl.dart';
+import 'package:chat_edums/components/headPage.dart';
+import 'package:chat_edums/components/predefinedMessage.dart';
+
+import 'package:chat_edums/components/InsertFileChoice.dart';
+
+import 'package:chat_edums/components/appBar.dart';
+
+import 'package:get/get.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String headerText;
-  ChatScreen({required this.headerText});
+  //final String headerText;
+  //ChatScreen({required this.headerText});
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -13,9 +21,31 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final List<Map<String, dynamic>> _messages = [];
+  final String headerText = Get.arguments ?? 'default ';
   bool isTalker1 = true;
   int? _editingMessageIndex;
   double _paddingValue = 10.0;
+  bool visibilityy1 = false;
+  bool visibilityy2 = false;
+
+  final FocusNode _focusNode = FocusNode();
+  bool _isFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {
+        _isFocused = _focusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   void _sendMessage(String message) {
     if (message.isNotEmpty) {
@@ -30,12 +60,6 @@ class _ChatScreenState extends State<ChatScreen> {
         _paddingValue = 10.0;
       });
     }
-  }
-
-  void _onTextChanged(String text) {
-    setState(() {
-      _paddingValue = 10.0 + (text.length > 0 ? text.length * 2 : 0);
-    });
   }
 
   String _formatDate(DateTime dateTime) {
@@ -54,30 +78,10 @@ class _ChatScreenState extends State<ChatScreen> {
           height: 500,
           child: Column(
             children: [
-              Container(
-                color: Colors.blue,
-                child: Row(
-                  children: [
-                    SizedBox(width: 30),
-                    Icon(Icons.message_outlined, color: Colors.white),
-                    SizedBox(width: 30),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Messages Predefined",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold)),
-                        Opacity(
-                          opacity: 0.7,
-                          child: Text("Choose the message to send",
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              HeadPage(
+                textUp: "Messages Predefined",
+                textDown: "Choose the message to send",
+                image: Icon(Icons.message_outlined, color: Colors.white),
               ),
               SizedBox(height: 10),
               Expanded(
@@ -89,16 +93,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         Navigator.of(context).pop();
                       },
                       child: Row(children: [
-                        Container(
-                          padding: EdgeInsets.all(17.0),
-                          margin: EdgeInsets.only(bottom: 10.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blue),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          child: Text("Hello! How are you?"),
-                        ),
+                        Predefinedmessage(text: "Hello! How are you?"),
                         SizedBox(
                           width: 25,
                         ),
@@ -107,16 +102,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             _messageController.text = "Hello! How are you?";
                             Navigator.of(context).pop();
                           },
-                          child: Container(
-                            padding: EdgeInsets.all(17.0),
-                            margin: EdgeInsets.only(bottom: 10.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blue),
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            child: Text("Hello! How are you?"),
-                          ),
+                          child: Predefinedmessage(text: "Hello! How are you?"),
                         )
                       ]),
                     ),
@@ -126,16 +112,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         Navigator.of(context).pop();
                       },
                       child: Row(children: [
-                        Container(
-                          padding: EdgeInsets.all(17.0),
-                          margin: EdgeInsets.only(bottom: 10.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.blue),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          child: Text("So great, thank you!"),
-                        ),
+                        Predefinedmessage(text: "So great, thank you!"),
                         SizedBox(
                           width: 25,
                         ),
@@ -144,16 +121,8 @@ class _ChatScreenState extends State<ChatScreen> {
                             _messageController.text = "So great, thank you!";
                             Navigator.of(context).pop();
                           },
-                          child: Container(
-                            padding: EdgeInsets.all(17.0),
-                            margin: EdgeInsets.only(bottom: 10.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blue),
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            child: Text("So great, thank you!"),
-                          ),
+                          child:
+                              Predefinedmessage(text: "So great, thank you!"),
                         )
                       ]),
                     ),
@@ -164,16 +133,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       },
                       child: Row(
                         children: [
-                          Container(
-                            padding: EdgeInsets.all(17.0),
-                            margin: EdgeInsets.only(bottom: 10.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blue),
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            child: Text("How was your day?"),
-                          ),
+                          Predefinedmessage(text: "How was your day?"),
                           SizedBox(
                             width: 25,
                           ),
@@ -182,16 +142,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               _messageController.text = "How was your day?";
                               Navigator.of(context).pop();
                             },
-                            child: Container(
-                              padding: EdgeInsets.all(17.0),
-                              margin: EdgeInsets.only(bottom: 10.0),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.blue),
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              child: Text("How was your day?"),
-                            ),
+                            child: Predefinedmessage(text: "How was your day?"),
                           )
                         ],
                       ),
@@ -203,35 +154,17 @@ class _ChatScreenState extends State<ChatScreen> {
                       },
                       child: Row(
                         children: [
-                          Container(
-                            padding: EdgeInsets.all(17.0),
-                            margin: EdgeInsets.only(bottom: 10.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blue),
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            child: Text("No problem!"),
-                          ),
+                          Predefinedmessage(text: "No problem!"),
                           SizedBox(
                             width: 25,
                           ),
                           GestureDetector(
-                              onTap: () {
-                                _messageController.text = "No problem!";
-                                Navigator.of(context)
-                                    .pop(); // Close bottom sheet
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(17.0),
-                                margin: EdgeInsets.only(bottom: 10.0),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.blue),
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                                child: Text("No problem!"),
-                              )),
+                            onTap: () {
+                              _messageController.text = "No problem!";
+                              Navigator.of(context).pop();
+                            },
+                            child: Predefinedmessage(text: "No problem!"),
+                          ),
                         ],
                       ),
                     ),
@@ -257,108 +190,58 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           child: Column(
             children: [
-              Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(color: Colors.blue),
-                  child: Row(children: [
-                    Icon(
-                      Icons.attach_file,
-                      color: Colors.white,
-                      size: 40,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Column(
-                      children: [
-                        Text("Insert File",
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
-                        Opacity(
-                          opacity: 0.7,
-                          child: Text("choose your file from",
-                              style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    )
-                  ])),
+              HeadPage(
+                textUp: "Insert File",
+                textDown: "choose your file from",
+                image: Icon(
+                  Icons.attach_file,
+                  color: Colors.white,
+                  size: 40,
+                ),
+              ),
               SizedBox(height: 10),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 60,
-                            width: 60,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.pink,
-                              child: Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                            ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Insertfilechoice(
+                          color: Colors.pink,
+                          text: "Camera",
+                          icon: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                            size: 30,
                           ),
-                          SizedBox(height: 5),
-                          Text("Camera"),
-                        ],
-                      ),
-                    ),
+                        )),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Insertfilechoice(
+                          color: Colors.green,
+                          text: "Gallery",
+                          icon: Icon(
+                            Icons.photo,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                        )),
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 60,
-                            width: 60,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.green,
-                              child: Icon(
-                                Icons.photo,
-                                color: Colors.white,
-                                size: 35,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Text("Gallery"),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 60,
-                            width: 60,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.purple,
-                              child: Icon(
-                                Icons.insert_drive_file,
-                                color: Colors.white,
-                                size: 35,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Text("Document"),
-                        ],
+                      child: Insertfilechoice(
+                        color: Colors.purple,
+                        text: "Document",
+                        icon: Icon(
+                          Icons.insert_drive_file,
+                          color: Colors.white,
+                          size: 35,
+                        ),
                       ),
                     ),
                   ],
@@ -374,34 +257,15 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        leading: IconButton(
-          icon: Icon(
-            Icons.chevron_left,
-            size: 40,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+      appBar: AppBarW(
+        text: headerText,
+        icon: Icon(
+          Icons.chevron_left,
+          size: 40,
+          color: Colors.white,
         ),
-        title: Row(
-          children: [
-            Text(
-              widget.headerText,
-              style: TextStyle(color: Colors.white),
-            ),
-            Spacer(),
-            IconButton(
-              icon: Icon(
-                Icons.notifications,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            ),
-          ],
-        ),
+        //daly do boucle hnee
+        image: Image.asset("assets/schooll.png"),
       ),
       body: Stack(children: [
         Positioned.fill(
@@ -461,7 +325,8 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             Padding(
               //change this daly to update the textfield wa9t click
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(2.0),
+
               child: Row(
                 children: [
                   IconButton(
@@ -484,45 +349,75 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: _paddingValue),
                       child: TextField(
+                        maxLines: null,
+                        keyboardType:
+                            TextInputType.multiline, // Enables multiline input
+
+                        focusNode: _focusNode,
                         controller: _messageController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide(color: Colors.lightBlue)),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: _messageController.text.isNotEmpty
+                                ? 20
+                                : 12, // Adjust vertical padding
+                            horizontal: _isFocused ? 24 : 16,
+                          ),
                           hintText: _editingMessageIndex == null
                               ? "Type a message"
-                              : "Edit your message", //
+                              : "Edit your message",
                         ),
+                        onChanged: (value) {
+                          setState(() {
+                            visibilityy1 = value.isNotEmpty;
+                          });
+                        },
                         onSubmitted: (value) {
                           _sendMessage(value);
+
+                          _messageController.clear();
+                          setState(() {
+                            visibilityy1 = false;
+                          });
                         },
                       ),
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.blue)),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.send,
-                        color: Colors.blue,
-                      ),
-                      onPressed: () => _sendMessage(_messageController.text),
+                  Visibility(
+                    visible: visibilityy1,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.blue)),
+                      child: IconButton(
+                          icon: Icon(
+                            Icons.send,
+                            color: Colors.blue,
+                          ),
+                          onPressed: () => {
+                                _sendMessage(_messageController.text),
+                                _messageController.clear(),
+                                setState(() {
+                                  visibilityy1 = false;
+                                })
+                              }),
                     ),
                   ),
-                  Container(
-                    //backgroundColor: Colors.white,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.blue)),
-
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.mic,
-                        color: Colors.blue,
+                  Visibility(
+                    visible: !visibilityy1,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.blue)),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.mic,
+                          color: Colors.blue,
+                        ),
+                        onPressed: () {},
                       ),
-                      onPressed: () {},
                     ),
                   ),
                 ],
