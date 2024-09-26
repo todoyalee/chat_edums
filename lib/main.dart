@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:chat_edums/routes/app_routes.dart'; // Import your routes
+import 'package:chat_edums/routes/app_routes.dart';
+import 'package:chat_edums/views/reclamation.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ReclamationApp());
 }
 
 class MyApp extends StatelessWidget {

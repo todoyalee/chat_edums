@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:chat_edums/components/headPage.dart';
-import 'package:chat_edums/components/predefinedMessage.dart';
+import 'package:chat_edums/views/components/headPage.dart';
+import 'package:chat_edums/views/components/predefinedMessage.dart';
 
-import 'package:chat_edums/components/InsertFileChoice.dart';
+import 'package:chat_edums/views/components/InsertFileChoice.dart';
 
-import 'package:chat_edums/components/appBar.dart';
+import 'package:chat_edums/views/components/appBar.dart';
 
 import 'package:get/get.dart';
 
@@ -21,7 +21,10 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final List<Map<String, dynamic>> _messages = [];
-  final String headerText = Get.arguments ?? 'default ';
+
+  String headerText = 'default text';
+  String image = 'default_image.png';
+
   bool isTalker1 = true;
   int? _editingMessageIndex;
   double _paddingValue = 10.0;
@@ -33,6 +36,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
+    final Map<String, dynamic> arguments = Get.arguments ?? {};
+    setState(() {
+      headerText = arguments['text'] ?? 'default text';
+      image = arguments['images'] ?? 'default_image.png';
+    });
+
     super.initState();
     _focusNode.addListener(() {
       setState(() {
@@ -265,7 +274,7 @@ class _ChatScreenState extends State<ChatScreen> {
           color: Colors.white,
         ),
         //daly do boucle hnee
-        image: Image.asset("assets/schooll.png"),
+        image: Image.asset(image),
       ),
       body: Stack(children: [
         Positioned.fill(
@@ -313,8 +322,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         Text(
                           _formatDate(messageTime),
                           style: TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.grey,
+                            fontSize: 15.0,
+                            color: Colors.black,
                           ),
                         ),
                       ],
@@ -324,9 +333,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             Padding(
-              //change this daly to update the textfield wa9t click
               padding: EdgeInsets.all(2.0),
-
               child: Row(
                 children: [
                   IconButton(
@@ -350,8 +357,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       padding: EdgeInsets.symmetric(vertical: _paddingValue),
                       child: TextField(
                         maxLines: null,
-                        keyboardType:
-                            TextInputType.multiline, // Enables multiline input
+                        keyboardType: TextInputType.multiline,
+
+                        // Enables multiline input
 
                         focusNode: _focusNode,
                         controller: _messageController,

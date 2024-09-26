@@ -13,10 +13,6 @@ class AppRoutes {
   static List<GetPage> pages = [
     GetPage(name: cardScreen, page: () => CardPage()),
     GetPage(name: messageScreen, page: () => message()),
-    GetPage(
-        name: chatScreen,
-        page: () => ChatScreen(
-            //headerText: "aa",
-            ))
+    GetPage(name: chatScreen, page: () => ChatScreen())
   ];
 }

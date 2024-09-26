@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:chat_edums/components/notificationChnge.dart';
+import 'package:chat_edums/views/components/notificationChnge.dart';
 
 class MessengerInterface extends StatelessWidget {
   @override

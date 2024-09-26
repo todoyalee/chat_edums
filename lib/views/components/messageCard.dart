@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:chat_edums/components/notificationChnge.dart';
-import 'package:get/get.dart'; // Assurez-vous d'importer GetX
+import 'package:chat_edums/views/components/notificationChnge.dart';
+import 'package:get/get.dart';
 
 class CustomCard extends StatelessWidget {
   final String image;
@@ -20,19 +20,24 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed('/chatScreen', arguments: text);
+        Get.toNamed('/chatScreen', arguments: {
+          'text': text,
+          'image': image,
+        });
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: 13),
-        // focus on it
+        //margin: const EdgeInsets.only(bottom: 13),
+        //margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+        margin: const EdgeInsets.fromLTRB(16, 0, 18, 13),
 
+/*
         constraints: BoxConstraints(
             //maxWidth: 1,
             maxWidth: 500),
-
+*/
         height: 71,
         padding: const EdgeInsets.all(1),
-        //width: 3,
+        width: 3,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
@@ -44,7 +49,7 @@ class CustomCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Image.asset(image), // Utilisez l'image passée en paramètre
+            Image.asset(image),
             Text(
               text,
               style: const TextStyle(
@@ -72,25 +77,44 @@ class CustomCard extends StatelessWidget {
   }
 }
 
-// Exemple d'utilisation de CustomCard avec une liste de messages
 class MessageList extends StatelessWidget {
   final List<Map<String, String>> messages = [
-    {"text": "Scolarité", "date": "12/10/2023", "notificationCount": "5"},
-    {"text": "Administration", "date": "12/10/2023", "notificationCount": "2"},
-    {"text": "Cantine", "date": "12/10/2023", "notificationCount": "7"},
-    {"text": "Transport", "date": "12/10/2023", "notificationCount": "3"},
-    {"text": "Francais", "date": "12/10/2023", "notificationCount": "3"},
-    {"text": "Anglais", "date": "12/10/2023", "notificationCount": "3"},
     {
-      "images": "assets/back.jpg",
+      "text": "Scolarité",
+      "date": "12/10/2023",
+      "notificationCount": "5",
+      "images": "assets/schooll.png",
     },
     {
-      "images": "assets/kids.jpg",
+      "text": "Administration",
+      "date": "12/10/2023",
+      "notificationCount": "2",
+      "images": "assets/schooll.png",
     },
     {
-      "images": "assets/school.png",
+      "text": "Cantine",
+      "date": "12/10/2023",
+      "notificationCount": "7",
+      "images": "assets/schooll.png",
     },
-    {"images": "assets/stand.jpg"},
+    {
+      "text": "Transport",
+      "date": "12/10/2023",
+      "notificationCount": "3",
+      "images": "assets/schooll.png",
+    },
+    {
+      "text": "Francais",
+      "date": "12/10/2023",
+      "notificationCount": "3",
+      "images": "assets/schooll.png",
+    },
+    {
+      "text": "Anglais",
+      "date": "12/10/2023",
+      "notificationCount": "3",
+      "images": "assets/schooll.png",
+    },
   ];
 
   @override
@@ -99,7 +123,7 @@ class MessageList extends StatelessWidget {
       itemCount: messages.length,
       itemBuilder: (context, index) {
         return CustomCard(
-          image: messages[index]['images']!, // Remplacez par l'image appropriée
+          image: messages[index]['images']!,
           text: messages[index]["text"]!,
           date: messages[index]["date"]!,
           notificationCount: messages[index]["notificationCount"]!,

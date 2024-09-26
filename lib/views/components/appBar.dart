@@ -29,9 +29,12 @@ class AppBarW extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         children: [
           SizedBox(
-            width: 82,
+            width: 22,
           ),
+//          image,
+
           Image.asset("assets/schooll.png"),
+
           SizedBox(
             width: 50,
           ),

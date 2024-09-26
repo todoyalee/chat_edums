@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:chat_edums/components/messageCard.dart';
+import 'package:chat_edums/views/components/messageCard.dart';
 import 'package:get/get.dart';
 import 'package:chat_edums/views/chatScreen.dart';
 
@@ -12,44 +12,6 @@ class message extends StatefulWidget {
 
 class _messageState extends State<message> {
   // List of messages with their details
-  final List<Map<String, String>> messages = [
-    {
-      "text": "Scolarité",
-      "date": "12/10/2023",
-      "notificationCount": "5",
-      "images": "assets/back.jpg",
-    },
-    {
-      "text": "Administration",
-      "date": "12/10/2023",
-      "notificationCount": "2",
-      "images": "assets/stand.jpg",
-    },
-    {
-      "text": "Cantine",
-      "date": "12/10/2023",
-      "notificationCount": "7",
-      "images": "assets/schooll.png",
-    },
-    {
-      "text": "Transport",
-      "date": "12/10/2023",
-      "notificationCount": "3",
-      "images": "assets/schooll.png",
-    },
-    {
-      "text": "Francais",
-      "date": "12/10/2023",
-      "notificationCount": "3",
-      "images": "assets/stand.jpg"
-    },
-    {
-      "text": "Anglais",
-      "date": "12/10/2023",
-      "notificationCount": "3",
-      "images": "assets/schooll.png"
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -97,24 +59,7 @@ class _messageState extends State<message> {
               SizedBox(
                 height: 25,
               ),
-              Expanded(
-                flex: 4,
-                child: ListView.builder(
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    final message = messages[index];
-                    return CustomCard(
-                      image: message["images"]!,
-                      text: message["text"]!,
-                      date: message["date"]!,
-                      notificationCount: message["notificationCount"]!,
-                    );
-                    //const SizedBox(height: 20),
-                    //],
-                    //);
-                  },
-                ),
-              ),
+              Expanded(flex: 4, child: MessageList()),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -142,7 +87,7 @@ class _messageState extends State<message> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20), // Optional spacing below the button
+              const SizedBox(height: 20),
             ],
           ),
         ),
