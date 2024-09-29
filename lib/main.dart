@@ -198,71 +198,166 @@ class _ReclamationCardState extends State<ReclamationCard>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Text(
-                    widget.reclamation.sujet,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.black87,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
+                // Header with subject and priority badge in a row
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Icon(
-                      widget.reclamation.priorite == 'Urgent'
-                          ? Icons.priority_high
-                          : Icons.low_priority,
-                      color: widget.reclamation.priorite == 'Urgent'
-                          ? Colors.red
-                          : Colors.green,
+                    Expanded(
+                      child: Text(
+                        widget.reclamation.sujet,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.black87,
+                        ),
+                      ),
                     ),
-                    const SizedBox(width: 5),
-                    Text(
-                      widget.reclamation.priorite,
-                      style: TextStyle(
-                        fontSize: 16,
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
                         color: widget.reclamation.priorite == 'Urgent'
                             ? Colors.red
                             : Colors.green,
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 5),
-                Row(
-                  children: [
-                    Icon(
-                      widget.reclamation.statut == 'Résolu'
-                          ? Icons.check_circle
-                          : Icons.access_time,
-                      color: widget.reclamation.statut == 'Résolu'
-                          ? Colors.green
-                          : Colors.orange,
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      widget.reclamation.statut,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: widget.reclamation.statut == 'Résolu'
-                            ? Colors.green
-                            : Colors.orange,
+                      child: Text(
+                        widget.reclamation.priorite.toUpperCase(),
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 10),
-                Text(
-                  widget.reclamation.description,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.black54,
-                  ),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
+
+                // Divider for visual separation
+                Divider(color: Colors.grey.shade300, thickness: 1),
+
+                // Icon and Status Details in a more compact layout
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // Priority section
+                    Column(
+                      children: [
+                        Icon(
+                          widget.reclamation.priorite == 'Urgent'
+                              ? Icons.priority_high
+                              : Icons.low_priority,
+                          color: widget.reclamation.priorite == 'Urgent'
+                              ? Colors.red
+                              : Colors.green,
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          widget.reclamation.priorite,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: widget.reclamation.priorite == 'Urgent'
+                                ? Colors.red
+                                : Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    // Status section
+                    Column(
+                      children: [
+                        Icon(
+                          widget.reclamation.statut == 'Résolu'
+                              ? Icons.check_circle
+                              : Icons.access_time,
+                          color: widget.reclamation.statut == 'Résolu'
+                              ? Colors.green
+                              : Colors.orange,
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          widget.reclamation.statut,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: widget.reclamation.statut == 'Résolu'
+                                ? Colors.green
+                                : Colors.orange,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    // Date section with a compact look
+                    Column(
+                      children: [
+                        Icon(Icons.calendar_today,
+                            color: Colors.blueGrey, size: 20),
+                        const SizedBox(height: 5),
+                        Text(
+                          widget.reclamation.sujet,
+                          style: const TextStyle(
+                              fontSize: 14, color: Colors.blueGrey),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+
+                // Description with subtle background and icon
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(Icons.description, color: Colors.blueGrey),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          widget.reclamation.description,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Colors.black54,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                // Footer with action button aligned to the right
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      //id
+                      "Réf: #${widget.reclamation.description}",
+                      style:
+                          TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        // Add functionality here
+                      },
+                      icon: const Icon(Icons.arrow_forward, size: 18),
+                      label: const Text('View Details'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: widget.reclamation.priorite == 'Urgent'
+                            ? Colors.red
+                            : Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
