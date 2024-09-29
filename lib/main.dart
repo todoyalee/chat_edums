@@ -201,7 +201,6 @@ class _ReclamationCardState extends State<ReclamationCard>
                 // Header with Avatar, Subject, and Date
                 Row(
                   children: [
-                    // Avatar for user or subject
                     CircleAvatar(
                       backgroundColor: Colors.blueGrey.shade200,
                       child: Icon(
@@ -224,8 +223,7 @@ class _ReclamationCardState extends State<ReclamationCard>
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            //date
-                            "Date: ${widget.reclamation.description}",
+                            "Date: ${widget.reclamation.sujet}",
                             style: const TextStyle(
                               fontSize: 14,
                               color: Colors.grey,
@@ -259,28 +257,29 @@ class _ReclamationCardState extends State<ReclamationCard>
                 const SizedBox(height: 15),
 
                 // Progress Bar for Status
-                Stack(
+                Column(
                   children: [
-                    Container(
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(10),
+                    Text(
+                      widget.reclamation.statut == 'Résolu'
+                          ? 'Resolved'
+                          : 'In Progress',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: widget.reclamation.statut == 'Résolu'
+                            ? Colors.green
+                            : Colors.orange,
                       ),
                     ),
-                    Positioned(
-                      left: 0,
-                      child: Container(
-                        height: 4,
-                        width: widget.reclamation.statut == 'Résolu'
-                            ? 100
-                            : 50, // Adjust width based on status
-                        decoration: BoxDecoration(
-                          color: widget.reclamation.statut == 'Résolu'
-                              ? Colors.green
-                              : Colors.orange,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                    const SizedBox(height: 8),
+                    LinearProgressIndicator(
+                      value: widget.reclamation.statut == 'Résolu'
+                          ? 1.0
+                          : 0.5, // Set this dynamically based on status/progress
+                      backgroundColor: Colors.grey.shade300,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        widget.reclamation.statut == 'Résolu'
+                            ? Colors.green
+                            : Colors.orange,
                       ),
                     ),
                   ],
