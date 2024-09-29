@@ -1,3 +1,4 @@
+import 'package:chat_edums/views/components/subComponents/priority.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -124,105 +125,139 @@ class _ReclamationPageState extends State<ReclamationPage> {
   }
 }
 
-class ReclamationCard extends StatelessWidget {
+class ReclamationCard extends StatefulWidget {
   final Reclamation reclamation;
 
   const ReclamationCard({Key? key, required this.reclamation})
       : super(key: key);
 
   @override
+  _ReclamationCardState createState() => _ReclamationCardState();
+}
+
+class _ReclamationCardState extends State<ReclamationCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+
+    // Start the animation
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Color borderColor =
-        reclamation.priorite == 'Urgent' ? Colors.red : Colors.grey;
+        widget.reclamation.priorite == 'Urgent' ? Colors.red : Colors.grey;
 
-    Color statusColor;
-    if (reclamation.statut == 'Résolu') {
-      statusColor = Colors.green.withOpacity(0.7);
-    } else {
-      statusColor = Colors.red.withOpacity(0.3);
-    }
-
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-        side: BorderSide(color: borderColor, width: 2),
+    return ScaleTransition(
+      scale: Tween<double>(begin: 0.9, end: 1.0).animate(
+        CurvedAnimation(
+          parent: _controller,
+          curve: Curves.easeOut,
+        ),
       ),
-      elevation: 5,
-      color: Colors.white.withOpacity(0.9),
-      child: Stack(
-        children: [
-          if (reclamation.priorite == 'Urgent')
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 10,
-                color: Colors.red,
-              ),
+      child: Card(
+        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+          side: BorderSide(color: borderColor, width: 2),
+        ),
+        elevation: 5,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: widget.reclamation.priorite == 'Urgent'
+                  ? [Colors.red.shade200, Colors.red.shade100]
+                  : [Colors.blue.shade200, Colors.blue.shade100],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 20),
-                      Text(
-                        'Sujet: ${reclamation.sujet}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.blueAccent,
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        'Priorité: ${reclamation.priorite}',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: reclamation.priorite == 'Urgent'
-                              ? Colors.black
-                              : Colors.black,
-                        ),
-                      ),
-                      const SizedBox(height: 4.0),
-                      Text('Statut: ${reclamation.statut}'),
-                      const SizedBox(height: 4.0),
-                      Text(
-                        'Description: ${reclamation.description}',
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.reclamation.sujet,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black87,
                 ),
-                const SizedBox(width: 8.0),
-                Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/r.png"),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Icon(
+                    widget.reclamation.priorite == 'Urgent'
+                        ? Icons.priority_high
+                        : Icons.low_priority,
+                    color: widget.reclamation.priorite == 'Urgent'
+                        ? Colors.red
+                        : Colors.green,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    widget.reclamation.priorite,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: widget.reclamation.priorite == 'Urgent'
+                          ? Colors.red
+                          : Colors.green,
                     ),
                   ),
-                  width: 80,
-                  height: 80,
+                ],
+              ),
+              const SizedBox(height: 5),
+              Row(
+                children: [
+                  Icon(
+                    widget.reclamation.statut == 'Résolu'
+                        ? Icons.check_circle
+                        : Icons.access_time,
+                    color: widget.reclamation.statut == 'Résolu'
+                        ? Colors.green
+                        : Colors.orange,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    widget.reclamation.statut,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: widget.reclamation.statut == 'Résolu'
+                          ? Colors.green
+                          : Colors.orange,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                widget.reclamation.description,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.black54,
                 ),
-              ],
-            ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 10,
-              color: statusColor,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

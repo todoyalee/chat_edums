@@ -8,6 +8,8 @@ class statut extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height: 80,
+        width: 80,
         child: Text(
           statutt,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),

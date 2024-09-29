@@ -1,15 +1,18 @@
+import 'package:chat_edums/views/components/subComponents/priority.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
 import 'package:chat_edums/views/components/appBar.dart';
 import 'package:get/get.dart';
 
-void main() => runApp(ReclamationApp());
+void main() {
+  runApp(ReclamationApp());
+}
 
 class ReclamationApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Reclamation Management',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -41,7 +44,6 @@ class ReclamationPage extends StatefulWidget {
 
 class _ReclamationPageState extends State<ReclamationPage> {
   final List<Reclamation> reclamations = [];
-
   String? filterPriority;
 
   String headerText = 'Reclamation';
@@ -69,7 +71,6 @@ class _ReclamationPageState extends State<ReclamationPage> {
           size: 40,
           color: Colors.white,
         ),
-        //daly do boucle hnee
         image: Image.asset(image),
       ),
       body: Container(
@@ -81,9 +82,6 @@ class _ReclamationPageState extends State<ReclamationPage> {
         ),
         child: Column(
           children: [
-            //   Padding(
-            //padding: const EdgeInsets.all(60.0),
-            //child:
             DropdownButton<String>(
               hint: const Text("Filtrer par priorité"),
               value: filterPriority,
@@ -95,7 +93,6 @@ class _ReclamationPageState extends State<ReclamationPage> {
               ],
               onChanged: filterReclamations,
             ),
-            //),
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(8.0),
@@ -134,62 +131,100 @@ class ReclamationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Set the border color based on the priority
     Color borderColor =
         reclamation.priorite == 'Urgent' ? Colors.red : Colors.grey;
+
+    Color statusColor;
+    if (reclamation.statut == 'Résolu') {
+      statusColor = Colors.green.withOpacity(0.7);
+    } else {
+      statusColor = Colors.red.withOpacity(0.3);
+    }
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
-        side: BorderSide(
-            color: borderColor, width: 2), // Set the border color here
+        side: BorderSide(color: borderColor, width: 2),
       ),
       elevation: 5,
-      color: Colors.white.withOpacity(0.9), // Keep the card color unchanged
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'Sujet: ${reclamation.sujet}',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.blueAccent,
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                Text(
-                  'Priorité: ${reclamation.priorite}',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: reclamation.priorite == 'Urgent'
-                        ? Colors.black // Keep the text color for urgency
-                        : Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 4.0),
-                Text('Statut: ${reclamation.statut}'),
-                const SizedBox(height: 4.0),
-                Text('Description: ${reclamation.description}'),
-              ],
+      color: Colors.white.withOpacity(0.9),
+      child: Stack(
+        children: [
+          if (reclamation.priorite == 'Urgent')
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 10,
+                color: Colors.red,
+              ),
             ),
-            SizedBox(
-              width: 90,
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 20),
+                  Center(
+                    child: Text(
+                      ' ${reclamation.sujet}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.blueAccent,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Container(
+                    height: 40,
+                    width: 40,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.red,
+                      child: Text(
+                        '${reclamation.priorite}',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 10),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      '${reclamation.statut}',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(45),
+                        color: Colors.red.withOpacity(0.4)),
+                  ),
+                  const SizedBox(height: 4.0),
+                  Text(' ${reclamation.statut}'),
+                  const SizedBox(height: 4.0),
+                  Text(
+                    ' ${reclamation.description}',
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage("assets/r.png"))),
-            )
-          ],
-        ),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 10,
+              color: statusColor,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -212,10 +247,11 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
 
   String sujet = '';
   String priorite = 'Normal';
-  String statut = 'En attente'; // Default status
+  String statut = 'En attente';
   String description = '';
 
   void initState() {
+    super.initState(); // Make sure to call super.initState()
     final Map<String, dynamic> arguments = Get.arguments ?? {};
     setState(() {
       headerText = arguments['text'] ?? 'default text';
@@ -239,13 +275,12 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
             key: _formKey,
             child: Column(
               children: [
-                SizedBox(height: 50),
                 Image.asset("assets/schooll.png"),
-                SizedBox(height: 40),
+                SizedBox(height: 33),
                 TextFormField(
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
-                  style: TextStyle(color: Colors.grey[400]),
+                  style: TextStyle(color: Colors.black),
                   decoration: const InputDecoration(
                     hintStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(
@@ -258,37 +293,20 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                   validator: (value) =>
                       value!.isEmpty ? 'Veuillez entrer un sujet' : null,
                 ),
-                const SizedBox(height: 35.0),
-                // Priority Dropdown
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: DropdownButtonFormField<String>(
-                    value: priorite,
-                    decoration: const InputDecoration(
-                      labelText: 'Priorité',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(150.0)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey, width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2),
-                      ),
-                    ),
-                    items: const [
-                      DropdownMenuItem(value: 'Normal', child: Text('Normal')),
-                      DropdownMenuItem(value: 'Urgent', child: Text('Urgent')),
-                    ],
-                    onChanged: (value) => setState(() {
+                const SizedBox(height: 28.0),
+                /*
+                Priority(
+                  text: priorite,
+                  /*
+                  onChanged: (value) {
+                    setState(() {
                       priorite = value!;
-                    }),
-                  ),
+                    });
+                  },
+                  */
                 ),
-                const SizedBox(height: 35.0),
-                // Status Dropdown
+                */
+                const SizedBox(height: 28.0),
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -304,52 +322,49 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                         borderSide: BorderSide(color: Colors.grey, width: 2),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2),
+                        borderSide: BorderSide(color: Colors.blue, width: 2),
                       ),
                     ),
                     items: const [
                       DropdownMenuItem(
                           value: 'En attente', child: Text('En attente')),
                       DropdownMenuItem(value: 'Résolu', child: Text('Résolu')),
-                      DropdownMenuItem(
-                          value: 'En cours', child: Text('En cours')),
                     ],
-                    onChanged: (value) => setState(() {
-                      statut = value!;
-                    }),
+                    onChanged: (value) {
+                      setState(() {
+                        statut = value!;
+                      });
+                    },
                   ),
                 ),
-                const SizedBox(height: 35.0),
-                // Description Text Field
+                const SizedBox(height: 28.0),
                 TextFormField(
+                  maxLines: null,
+                  keyboardType: TextInputType.multiline,
+                  style: TextStyle(color: Colors.black),
                   decoration: const InputDecoration(
-                    labelText: 'Description',
+                    hintStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                      borderSide: BorderSide(color: Colors.black),
+                      borderSide: BorderSide(color: Colors.black, width: 3.0),
                     ),
+                    labelText: 'Description',
                   ),
                   onChanged: (value) => description = value,
                   validator: (value) =>
                       value!.isEmpty ? 'Veuillez entrer une description' : null,
                 ),
-                const SizedBox(height: 60),
-                // Add Button
+                const SizedBox(height: 28.0),
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(30),
-                    backgroundColor: Colors.blue,
-                  ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      widget.onAdd(
-                        Reclamation(
-                          sujet: sujet,
-                          priorite: priorite,
-                          statut: statut, // Include statut here
-                          description: description,
-                        ),
+                      final reclamation = Reclamation(
+                        sujet: sujet,
+                        priorite: priorite,
+                        statut: statut,
+                        description: description,
                       );
+                      widget.onAdd(reclamation);
                       Navigator.pop(context);
                     }
                   },
