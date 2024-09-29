@@ -198,112 +198,96 @@ class _ReclamationCardState extends State<ReclamationCard>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header with subject and priority badge in a row
+                // Header with Avatar, Subject, and Date
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Text(
-                        widget.reclamation.sujet,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: Colors.black87,
-                        ),
+                    // Avatar for user or subject
+                    CircleAvatar(
+                      backgroundColor: Colors.blueGrey.shade200,
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
                       ),
                     ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.reclamation.sujet,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            //date
+                            "Date: ${widget.reclamation.description}",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    // Priority Label as Tag
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
+                          horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: widget.reclamation.priorite == 'Urgent'
                             ? Colors.red
                             : Colors.green,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                       child: Text(
                         widget.reclamation.priorite.toUpperCase(),
                         style: const TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+
+                // Progress Bar for Status
+                Stack(
+                  children: [
+                    Container(
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      child: Container(
+                        height: 4,
+                        width: widget.reclamation.statut == 'Résolu'
+                            ? 100
+                            : 50, // Adjust width based on status
+                        decoration: BoxDecoration(
+                          color: widget.reclamation.statut == 'Résolu'
+                              ? Colors.green
+                              : Colors.orange,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 10),
 
-                // Divider for visual separation
-                Divider(color: Colors.grey.shade300, thickness: 1),
-
-                // Icon and Status Details in a more compact layout
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    // Priority section
-                    Column(
-                      children: [
-                        Icon(
-                          widget.reclamation.priorite == 'Urgent'
-                              ? Icons.priority_high
-                              : Icons.low_priority,
-                          color: widget.reclamation.priorite == 'Urgent'
-                              ? Colors.red
-                              : Colors.green,
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          widget.reclamation.priorite,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: widget.reclamation.priorite == 'Urgent'
-                                ? Colors.red
-                                : Colors.green,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    // Status section
-                    Column(
-                      children: [
-                        Icon(
-                          widget.reclamation.statut == 'Résolu'
-                              ? Icons.check_circle
-                              : Icons.access_time,
-                          color: widget.reclamation.statut == 'Résolu'
-                              ? Colors.green
-                              : Colors.orange,
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          widget.reclamation.statut,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: widget.reclamation.statut == 'Résolu'
-                                ? Colors.green
-                                : Colors.orange,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    // Date section with a compact look
-                    Column(
-                      children: [
-                        Icon(Icons.calendar_today,
-                            color: Colors.blueGrey, size: 20),
-                        const SizedBox(height: 5),
-                        Text(
-                          widget.reclamation.sujet,
-                          style: const TextStyle(
-                              fontSize: 14, color: Colors.blueGrey),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-
-                // Description with subtle background and icon
+                // Description with Highlighted Words or Icon
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -316,32 +300,47 @@ class _ReclamationCardState extends State<ReclamationCard>
                           color: Colors.grey.shade100,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Text(
-                          widget.reclamation.description,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.black54,
+                        child: RichText(
+                          text: TextSpan(
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.black54),
+                            children: [
+                              const TextSpan(text: "Description: "),
+                              TextSpan(
+                                text: widget.reclamation.description,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 20),
 
-                // Footer with action button aligned to the right
+                // Action Button with Icons for Status
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      //id
-                      "Réf: #${widget.reclamation.description}",
-                      style:
-                          TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                    // Status Icon with Tooltip
+                    Tooltip(
+                      message: widget.reclamation.statut == 'Résolu'
+                          ? 'Resolved'
+                          : 'Pending',
+                      child: Icon(
+                        widget.reclamation.statut == 'Résolu'
+                            ? Icons.check_circle
+                            : Icons.access_time,
+                        color: widget.reclamation.statut == 'Résolu'
+                            ? Colors.green
+                            : Colors.orange,
+                        size: 24,
+                      ),
                     ),
+
+                    // View Details Button
                     ElevatedButton.icon(
                       onPressed: () {
                         // Add functionality here
