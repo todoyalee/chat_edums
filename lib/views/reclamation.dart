@@ -1,13 +1,12 @@
-import 'package:chat_edums/views/components/subComponents/priority.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:chat_edums/views/components/ReclamationCard.dart';
 
 import 'package:chat_edums/views/components/appBar.dart';
+
+import 'package:chat_edums/views/components/AddReclamationPage.dart';
+
 import 'package:get/get.dart';
-
-import 'package:flutter/rendering.dart';
-
-void main() => runApp(ReclamationApp());
+import 'package:chat_edums/views/components/Reclamation_structure.dart';
 
 class ReclamationApp extends StatelessWidget {
   @override
@@ -24,20 +23,6 @@ class ReclamationApp extends StatelessWidget {
   }
 }
 
-class Reclamation {
-  final String sujet;
-  final String priorite;
-  final String statut;
-  final String description;
-
-  Reclamation({
-    required this.sujet,
-    required this.priorite,
-    required this.statut,
-    required this.description,
-  });
-}
-
 class ReclamationPage extends StatefulWidget {
   @override
   _ReclamationPageState createState() => _ReclamationPageState();
@@ -48,7 +33,7 @@ class _ReclamationPageState extends State<ReclamationPage> {
   String? filterPriority;
 
   String headerText = 'Reclamation';
-  String image = 'default_image.png';
+  String image = 'assets/schooll.png';
 
   void addReclamation(Reclamation reclamation) {
     setState(() {
@@ -65,414 +50,76 @@ class _ReclamationPageState extends State<ReclamationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarW(
-        text: headerText,
-        icon: Icon(
-          Icons.chevron_left,
-          size: 40,
-          color: Colors.white,
-        ),
-        image: Image.asset(image),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/back.jpg"),
-            fit: BoxFit.cover,
+        appBar: AppBarW(
+          text: headerText,
+          icon: Icon(
+            Icons.chevron_left,
+            size: 40,
+            color: Colors.white,
           ),
+          image: Image.asset(image),
         ),
-        child: Column(
-          children: [
-            DropdownButton<String>(
-              hint: const Text("Filtrer par priorité"),
-              value: filterPriority,
-              underline: Container(),
-              items: const [
-                DropdownMenuItem(value: null, child: Text('Tous')),
-                DropdownMenuItem(value: 'Normal', child: Text('Normal')),
-                DropdownMenuItem(value: 'Urgent', child: Text('Urgent')),
-              ],
-              onChanged: filterReclamations,
-            ),
-            //),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(8.0),
-                itemCount: reclamations.length,
-                itemBuilder: (context, index) {
-                  final reclamation = reclamations[index];
-                  return filterPriority == null ||
-                          filterPriority == 'Tous' ||
-                          reclamation.priorite == filterPriority
-                      ? ReclamationCard(reclamation: reclamation)
-                      : const SizedBox();
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AddReclamationPage(onAdd: addReclamation),
-          ),
-        ),
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class ReclamationCard extends StatefulWidget {
-  final Reclamation reclamation;
-
-  const ReclamationCard({Key? key, required this.reclamation})
-      : super(key: key);
-
-  @override
-  _ReclamationCardState createState() => _ReclamationCardState();
-}
-
-class _ReclamationCardState extends State<ReclamationCard>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-
-    // Start the animation
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Color borderColor =
-        widget.reclamation.priorite == 'Urgent' ? Colors.red : Colors.grey;
-
-    return ScaleTransition(
-      scale: Tween<double>(begin: 0.9, end: 1.0).animate(
-        CurvedAnimation(
-          parent: _controller,
-          curve: Curves.easeOut,
-        ),
-      ),
-      child: Card(
-        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-          side: BorderSide(color: borderColor, width: 2),
-        ),
-        elevation: 5,
-        child: Container(
-          padding: const EdgeInsets.all(16),
+        body: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: widget.reclamation.priorite == 'Urgent'
-                  ? [Colors.red.shade200, Colors.red.shade100]
-                  : [Colors.blue.shade200, Colors.blue.shade100],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+            image: DecorationImage(
+              image: AssetImage("assets/back.jpg"),
+              fit: BoxFit.cover,
             ),
-            borderRadius: BorderRadius.circular(15),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.reclamation.sujet,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Icon(
-                    widget.reclamation.priorite == 'Urgent'
-                        ? Icons.priority_high
-                        : Icons.low_priority,
-                    color: widget.reclamation.priorite == 'Urgent'
-                        ? Colors.red
-                        : Colors.green,
-                  ),
-                  const SizedBox(width: 5),
-                  Text(
-                    widget.reclamation.priorite,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: widget.reclamation.priorite == 'Urgent'
-                          ? Colors.red
-                          : Colors.green,
-                    ),
-                  ),
+              DropdownButton<String>(
+                hint: const Text("Filtrer par priorité"),
+                value: filterPriority,
+                underline: Container(),
+                items: const [
+                  DropdownMenuItem(value: null, child: Text('Tous')),
+                  DropdownMenuItem(value: 'Normal', child: Text('Normal')),
+                  DropdownMenuItem(value: 'Urgent', child: Text('Urgent')),
                 ],
+                onChanged: filterReclamations,
               ),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  Icon(
-                    widget.reclamation.statut == 'Résolu'
-                        ? Icons.check_circle
-                        : Icons.access_time,
-                    color: widget.reclamation.statut == 'Résolu'
-                        ? Colors.green
-                        : Colors.orange,
-                  ),
-                  const SizedBox(width: 5),
-                  Text(
-                    widget.reclamation.statut,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: widget.reclamation.statut == 'Résolu'
-                          ? Colors.green
-                          : Colors.orange,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Text(
-                widget.reclamation.description,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.black54,
+              //),
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(8.0),
+                  itemCount: reclamations.length,
+                  itemBuilder: (context, index) {
+                    final reclamation = reclamations[index];
+                    return filterPriority == null ||
+                            filterPriority == 'Tous' ||
+                            reclamation.priorite == filterPriority
+                        ? ReclamationCard(reclamation: reclamation)
+                        : const SizedBox();
+                  },
                 ),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class AddReclamationPage extends StatefulWidget {
-  final Function(Reclamation) onAdd;
-
-  const AddReclamationPage({Key? key, required this.onAdd}) : super(key: key);
-
-  @override
-  _AddReclamationPageState createState() => _AddReclamationPageState();
-}
-
-class _AddReclamationPageState extends State<AddReclamationPage> {
-  String headerText = 'default text';
-  String image = 'default_image.png';
-
-  final _formKey = GlobalKey<FormState>();
-
-  String sujet = '';
-
-  String priorite = 'Normal';
-  String statut = 'En attente';
-  String description = '';
-
-  void initState() {
-    final Map<String, dynamic> arguments = Get.arguments ?? {};
-    setState(() {
-      headerText = arguments['text'] ?? 'default text';
-      image = arguments['images'] ?? 'default_image.png';
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/back.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                //SizedBox(height: 25),
-                Image.asset("assets/schooll.png"),
-                SizedBox(height: 33),
-                TextFormField(
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  style: TextStyle(color: Colors.black),
-                  decoration: const InputDecoration(
-                    hintStyle: TextStyle(color: Colors.white),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                      borderSide: BorderSide(color: Colors.black, width: 3.0),
-                    ),
-                    labelText: 'Sujet',
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16), // Rounded corners
                   ),
-                  onChanged: (value) => sujet = value,
-                  validator: (value) =>
-                      value!.isEmpty ? 'Veuillez entrer un sujet' : null,
-                ),
-                const SizedBox(height: 28.0),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 3,
-                        blurRadius: 10,
-                        offset: Offset(0, 3), // Shadow position
-                      ),
-                    ],
-                    color: Colors.white,
-                  ),
-                  child: DropdownButtonFormField<String>(
-                    value: priorite,
-                    decoration: InputDecoration(
-                      labelText: 'Priorité',
-                      labelStyle: TextStyle(
-                        color: Colors.grey[700],
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 15.0, horizontal: 20.0),
-                      filled: true,
-                      fillColor: Colors.white,
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                        borderSide:
-                            const BorderSide(color: Colors.grey, width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                        borderSide:
-                            const BorderSide(color: Colors.blue, width: 2),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                    ),
-                    icon: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      transitionBuilder:
-                          (Widget child, Animation<double> animation) {
-                        return ScaleTransition(scale: animation, child: child);
-                      },
-                      child: Icon(
-                        Icons.arrow_drop_down_circle_outlined,
-                        key: ValueKey(priorite),
-                        color: Colors.blue,
-                        size: 28,
-                      ),
-                    ),
-                    items: const [
-                      DropdownMenuItem(value: 'Normal', child: Text('Normal')),
-                      DropdownMenuItem(value: 'Urgent', child: Text('Urgent')),
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        priorite = value!;
-                      });
-                    },
-                    dropdownColor: Colors.white,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height *
+                        0.75, // Adjust height as needed
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 8.0),
+                      child: AddReclamationPage(onAdd: addReclamation),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 28.0,
-                ),
-
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: DropdownButtonFormField<String>(
-                    value: statut,
-                    decoration: const InputDecoration(
-                      labelText: 'Statut',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(150.0)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey, width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(width: 2),
-                      ),
-                    ),
-                    items: const [
-                      DropdownMenuItem(
-                          value: 'En attente', child: Text('Pending')),
-                      DropdownMenuItem(
-                          value: 'Résolu', child: Text('Resolved')),
-                      DropdownMenuItem(
-                          value: 'En cours', child: Text('Not resolved')),
-                    ],
-                    onChanged: (value) => setState(() {
-                      statut = value!;
-                    }),
-                  ),
-                ),
-                const SizedBox(height: 28.0),
-                TextFormField(
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  decoration: const InputDecoration(
-                    labelText: 'Description',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                  ),
-                  onChanged: (value) => description = value,
-                  validator: (value) =>
-                      value!.isEmpty ? 'Veuillez entrer une description' : null,
-                ),
-                const SizedBox(height: 47),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(30),
-                    backgroundColor: Colors.blue,
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      widget.onAdd(
-                        Reclamation(
-                          sujet: sujet,
-                          priorite: priorite,
-                          statut: statut,
-                          description: description,
-                        ),
-                      );
-                      Navigator.pop(context);
-                    }
-                  },
-                  child: const Text('Ajouter'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                );
+              },
+            );
+          },
+          child: const Icon(Icons.add),
+        ));
   }
 }
