@@ -1,19 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:chat_edums/views/components/Reclamation_structure.dart';
 
-class ReclamationCard extends StatelessWidget {
+class ReclamationCard extends StatefulWidget {
   final Reclamation reclamation;
 
   const ReclamationCard({Key? key, required this.reclamation})
       : super(key: key);
 
   @override
+  _ReclamationCardState createState() => _ReclamationCardState();
+}
+
+class _ReclamationCardState extends State<ReclamationCard> {
+  bool _isExpanded = false; // Track whether the full description is visible
+
+  @override
   Widget build(BuildContext context) {
     Color borderColor =
-        reclamation.priorite == 'Urgent' ? Colors.red : Colors.grey;
-    Color statusColor = reclamation.statut == 'Résolu'
+        widget.reclamation.priorite == 'Urgent' ? Colors.red : Colors.grey;
+    Color statusColor = widget.reclamation.statut == 'Résolu'
         ? Colors.green.withOpacity(0.7)
         : Colors.red.withOpacity(0.3);
+
+    // Split the description to count the words
+    List<String> descriptionWords = widget.reclamation.description.split(' ');
+    bool isLongDescription =
+        descriptionWords.length > 5; // Check if description is long
 
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -24,13 +36,13 @@ class ReclamationCard extends StatelessWidget {
       elevation: 6,
       child: Column(
         children: [
-          if (reclamation.priorite == 'Urgent')
+          if (widget.reclamation.priorite == 'Urgent')
             Container(
               height: 8,
               width: double.infinity,
               color: Colors.red,
             ),
-          if (reclamation.priorite == 'Normal')
+          if (widget.reclamation.priorite == 'Normal')
             Container(
               height: 8,
               width: double.infinity,
@@ -50,49 +62,66 @@ class ReclamationCard extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: reclamation.priorite == 'Urgent'
+                        color: widget.reclamation.priorite == 'Urgent'
                             ? Colors.red
                             : Colors.green,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        ' ${reclamation.priorite}',
+                        ' ${widget.reclamation.priorite}',
                         style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(
-                  width: 65,
+                SizedBox(width: 65),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 50),
+                      Text(
+                        ' ${widget.reclamation.sujet}',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 10),
+                      // Display the description based on the state
+                      AnimatedSize(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _isExpanded || !isLongDescription
+                                  ? widget.reclamation.description
+                                  : '${descriptionWords.take(5).join(' ')}...', // Truncated description
+                              style: TextStyle(
+                                  color: Colors.black.withOpacity(0.3),
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            if (isLongDescription)
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isExpanded = !_isExpanded; // Toggle state
+                                  });
+                                },
+                                child: Text(
+                                  _isExpanded ? 'Show less' : 'Show more',
+                                  style: TextStyle(color: Colors.blue),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 50,
-                      //width: 45,
-                    ),
-                    Text(
-                      ' ${reclamation.sujet}',
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      ' ${reclamation.description}',
-                      style: TextStyle(
-                          color: Colors.black.withOpacity(0.3),
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  width: 150,
-                ),
+                SizedBox(width: 20),
                 Column(
                   children: [
                     Opacity(
@@ -101,15 +130,15 @@ class ReclamationCard extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(horizontal: 6, vertical: 5),
                         decoration: BoxDecoration(
-                          color: reclamation.statut == 'Progress'
+                          color: widget.reclamation.statut == 'Progress'
                               ? Colors.orange
-                              : reclamation.statut == 'Pending'
+                              : widget.reclamation.statut == 'Pending'
                                   ? Colors.red
-                                  : Colors.green, // Default to white if neither
+                                  : Colors.green,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          ' ${reclamation.statut}',
+                          ' ${widget.reclamation.statut}',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -118,9 +147,7 @@ class ReclamationCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 40,
-                    ),
+                    SizedBox(height: 50),
                     Text(
                       "By dali ",
                       style: TextStyle(color: Colors.grey),
