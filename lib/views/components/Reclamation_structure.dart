@@ -1,9 +1,9 @@
 class Reclamation {
   final String sujet;
   final String description;
-  final String priorite; // 'Urgent' or 'Normal'
-  final String  statut; // 'Résolu' or 'Non Résolu'
-  final String studentName; // Student's name
+  final String priorite;
+  final String statut;
+  final String studentName;
   final DateTime date;
 
   Reclamation(

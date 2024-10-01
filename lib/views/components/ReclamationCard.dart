@@ -12,22 +12,21 @@ class ReclamationCard extends StatefulWidget {
 }
 
 class _ReclamationCardState extends State<ReclamationCard> {
-  bool _isExpanded = false; // Track whether the full description is visible
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     Color borderColor =
         widget.reclamation.priorite == 'Urgent' ? Colors.red : Colors.grey;
-    Color statusColor = widget.reclamation.statut == 'Résolu'
+    Color statusColor = widget.reclamation.statut == 'Resolved'
         ? Colors.green.withOpacity(0.7)
         : Colors.red.withOpacity(0.3);
 
-    // Split the description to count the words
     List<String> descriptionWords = widget.reclamation.description.split(' ');
-    bool isLongDescription =
-        descriptionWords.length > 5; // Check if description is long
+    bool isLongDescription = descriptionWords.length > 5;
 
     return Card(
+      color: Colors.white,
       margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -88,7 +87,6 @@ class _ReclamationCardState extends State<ReclamationCard> {
                             color: Colors.black, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 10),
-                      // Display the description based on the state
                       AnimatedSize(
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
@@ -98,7 +96,7 @@ class _ReclamationCardState extends State<ReclamationCard> {
                             Text(
                               _isExpanded || !isLongDescription
                                   ? widget.reclamation.description
-                                  : '${descriptionWords.take(5).join(' ')}...', // Truncated description
+                                  : '${descriptionWords.take(5).join(' ')}...',
                               style: TextStyle(
                                   color: Colors.black.withOpacity(0.3),
                                   fontWeight: FontWeight.bold),
@@ -107,7 +105,7 @@ class _ReclamationCardState extends State<ReclamationCard> {
                               TextButton(
                                 onPressed: () {
                                   setState(() {
-                                    _isExpanded = !_isExpanded; // Toggle state
+                                    _isExpanded = !_isExpanded; 
                                   });
                                 },
                                 child: Text(

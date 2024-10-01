@@ -24,7 +24,8 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
 
   @override
   void initState() {
-    super.initState(); // Call super.initState() here
+    super.initState();
+    // Call super.initState() here
     final Map<String, dynamic> arguments = Get.arguments ?? {};
     setState(() {
       headerText = arguments['text'] ?? 'default text';
@@ -165,7 +166,7 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50.0),
-            borderSide: const BorderSide(color: Colors.blue, width: 2),
+            borderSide: const BorderSide(color: Colors.black, width: 2),
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(50.0),
@@ -179,7 +180,7 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
           child: Icon(
             Icons.arrow_drop_down_circle_outlined,
             key: ValueKey(value),
-            color: Colors.blue,
+            color: Colors.grey[600],
             size: 28,
           ),
         ),
