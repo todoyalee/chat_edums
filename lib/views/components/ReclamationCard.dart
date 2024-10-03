@@ -17,7 +17,7 @@ class _ReclamationCardState extends State<ReclamationCard> {
   @override
   Widget build(BuildContext context) {
     Color borderColor =
-        widget.reclamation.priorite == 'Urgent' ? Colors.red : Colors.grey;
+        widget.reclamation.priorite == 'Urgent' ? Colors.red : Colors.green;
     Color statusColor = widget.reclamation.statut == 'Resolved'
         ? Colors.green.withOpacity(0.7)
         : Colors.red.withOpacity(0.3);
@@ -27,7 +27,7 @@ class _ReclamationCardState extends State<ReclamationCard> {
 
     return Card(
       color: Colors.white,
-      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
         side: BorderSide(color: borderColor, width: 1),
@@ -44,8 +44,9 @@ class _ReclamationCardState extends State<ReclamationCard> {
           if (widget.reclamation.priorite == 'Normal')
             Container(
               height: 8,
+
               width: double.infinity,
-              color: Colors.green,
+              //color: Colors.green,
             ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -53,13 +54,14 @@ class _ReclamationCardState extends State<ReclamationCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.asset("assets/schooll.png",
-                    width: 80, height: 80, fit: BoxFit.cover),
-                SizedBox(width: 30),
+                    width: 71, height: 80, fit: BoxFit.cover),
+                const SizedBox(width: 14),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: widget.reclamation.priorite == 'Urgent'
                             ? Colors.red
@@ -74,59 +76,58 @@ class _ReclamationCardState extends State<ReclamationCard> {
                     ),
                   ],
                 ),
-                SizedBox(width: 65),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 50),
-                      Text(
-                        ' ${widget.reclamation.sujet}',
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 10),
-                      AnimatedSize(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                const SizedBox(width: 18),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 50),
+                    Text(
+                      ' ${widget.reclamation.sujet}',
+                      style: const TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 10),
+                    AnimatedSize(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (_isExpanded || !isLongDescription)
+                            ..._buildVerticalText(descriptionWords)
+                          else
                             Text(
-                              _isExpanded || !isLongDescription
-                                  ? widget.reclamation.description
-                                  : '${descriptionWords.take(5).join(' ')}...',
+                              '${descriptionWords.take(2).join(' ')}...',
                               style: TextStyle(
-                                  color: Colors.black.withOpacity(0.3),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            if (isLongDescription)
-                              TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isExpanded = !_isExpanded; 
-                                  });
-                                },
-                                child: Text(
-                                  _isExpanded ? 'Show less' : 'Show more',
-                                  style: TextStyle(color: Colors.blue),
-                                ),
+                                color: Colors.black.withOpacity(0.3),
+                                fontWeight: FontWeight.bold,
                               ),
-                          ],
-                        ),
+                            ),
+                          if (isLongDescription)
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  _isExpanded = !_isExpanded;
+                                });
+                              },
+                              child: Text(
+                                _isExpanded ? 'Show less' : 'Show more',
+                                style: TextStyle(color: Colors.blue),
+                              ),
+                            ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 6),
                 Column(
                   children: [
                     Opacity(
                       opacity: 0.4,
                       child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 6, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 1, vertical: 1),
                         decoration: BoxDecoration(
                           color: widget.reclamation.statut == 'Progress'
                               ? Colors.orange
@@ -137,7 +138,7 @@ class _ReclamationCardState extends State<ReclamationCard> {
                         ),
                         child: Text(
                           ' ${widget.reclamation.statut}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -145,23 +146,41 @@ class _ReclamationCardState extends State<ReclamationCard> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 50),
-                    Text(
+                    const SizedBox(height: 50),
+                    const Text(
                       "By dali ",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
-                )
+                ),
               ],
             ),
-          ),
-          Container(
-            height: 8,
-            width: double.infinity,
-            color: statusColor,
           ),
         ],
       ),
     );
+  }
+
+  // Function to build vertical text display
+  List<Widget> _buildVerticalText(List<String> words) {
+    List<Widget> verticalTextWidgets = [];
+
+    // Iterate through the words in pairs
+    for (int i = 0; i < words.length; i += 2) {
+      // Create a line with two words or just one if it's odd
+      String line =
+          (i + 1 < words.length) ? '${words[i]} ${words[i + 1]}' : words[i];
+      verticalTextWidgets.add(
+        Text(
+          line,
+          style: TextStyle(
+            color: Colors.black.withOpacity(0.3),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      );
+    }
+
+    return verticalTextWidgets;
   }
 }

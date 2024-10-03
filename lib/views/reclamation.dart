@@ -65,46 +65,48 @@ class _ReclamationPageState extends State<ReclamationPage> {
         ),
         child: Column(
           children: [
-            // Card containing the filter dropdown
-            Card(
-              elevation: 3, // Adds shadow for a card effect
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: Row(
-                  children: [
-                    Text(
-                      "Filtrer par priorité",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const Spacer(),
-                    Icon(Icons.filter_list, color: Colors.blueAccent),
-                    const SizedBox(width: 10),
-                    DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        hint: const Text("Sélectionner"),
-                        value: filterPriority,
-                        icon: const Icon(Icons.arrow_drop_down,
-                            color: Colors.blueAccent), // Custom dropdown icon
-                        items: const [
-                          DropdownMenuItem(value: null, child: Text('Aucun')),
-                          DropdownMenuItem(
-                              value: 'Normal', child: Text('Normal')),
-                          DropdownMenuItem(
-                              value: 'Urgent', child: Text('Urgent')),
-                        ],
-                        onChanged: filterReclamations,
-                        dropdownColor: Colors.white,
-                        borderRadius:
-                            BorderRadius.circular(12), // Rounded dropdown
-                        style:
-                            TextStyle(color: Colors.blueAccent, fontSize: 16),
+            Center(
+              child: Card(
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        //"Filtrer",
+                        "", style: TextStyle(fontSize: 16),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 10),
+                      Icon(Icons.filter_list, color: Colors.blueAccent),
+                      const SizedBox(width: 5),
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          hint: const Text("Sélectionner"),
+                          value: filterPriority,
+                          icon: const Icon(Icons.arrow_drop_down,
+                              color: Colors.blueAccent),
+                          items: const [
+                            DropdownMenuItem(
+                                value: null, child: Text('Filter')),
+                            DropdownMenuItem(
+                                value: 'Normal', child: Text('Normal')),
+                            DropdownMenuItem(
+                                value: 'Urgent', child: Text('Urgent')),
+                          ],
+                          onChanged: filterReclamations,
+                          dropdownColor: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          style:
+                              TextStyle(color: Colors.blueAccent, fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -135,10 +137,10 @@ class _ReclamationPageState extends State<ReclamationPage> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.75,
+                  height: MediaQuery.of(context).size.height * 0.63,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
+                        horizontal: 10.0, vertical: 5.0),
                     child: AddReclamationPage(onAdd: addReclamation),
                   ),
                 ),

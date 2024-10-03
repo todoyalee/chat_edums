@@ -25,7 +25,6 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
   @override
   void initState() {
     super.initState();
-    // Call super.initState() here
     final Map<String, dynamic> arguments = Get.arguments ?? {};
     setState(() {
       headerText = arguments['text'] ?? 'default text';
@@ -101,7 +100,7 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                   validator: (value) =>
                       value!.isEmpty ? 'Veuillez entrer une description' : null,
                 ),
-                const SizedBox(height: 47),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.all(20),
