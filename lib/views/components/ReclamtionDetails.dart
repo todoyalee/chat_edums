@@ -41,29 +41,30 @@ class ReclamationDetails extends StatelessWidget {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              Text(
-                "Status: ${reclamation.statut}",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: reclamation.statut == 'Resolved'
-                      ? Colors.green
-                      : reclamation.statut == 'En Cours'
-                          ? Colors.orange
-                          : Colors.red,
-                ),
-              ),
+
+              // Text( "",
+              //   //"Status: ${reclamation.statut}",
+              //   style: TextStyle(
+              //     fontSize: 18,
+              //     color: reclamation.statut == 'Resolved'
+              //         ? Colors.green
+              //         : reclamation.statut == 'En Cours'
+              //             ? Colors.orange
+              //             : Colors.red,
+              //   ),
+              // ),
               const SizedBox(height: 16),
-              LinearProgressIndicator(
-                value: getProgressValue(reclamation.statut),
-                backgroundColor: Colors.grey.shade300,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  reclamation.statut == 'Resolved'
-                      ? Colors.green
-                      : reclamation.statut == 'En Cours'
-                          ? Colors.orange
-                          : Colors.red,
-                ),
-              ),
+              // LinearProgressIndicator(
+              //   value: getProgressValue(reclamation.statut),
+              //   backgroundColor: Colors.grey.shade300,
+              //   valueColor: AlwaysStoppedAnimation<Color>(
+              //     reclamation.statut == 'Resolved'
+              //         ? Colors.green
+              //         : reclamation.statut == 'En Cours'
+              //             ? Colors.orange
+              //             : Colors.red,
+              //   ),
+              // ),
               const SizedBox(height: 20),
               Card(
                 elevation: 4,
@@ -88,10 +89,10 @@ class ReclamationDetails extends StatelessWidget {
                                   : Colors.black,
                             ),
                           ),
-                          Text(
-                            "Date: ${reclamation.date.toLocal().toString().split(' ')[0]}",
-                            style: TextStyle(fontSize: 16, color: Colors.grey),
-                          ),
+                          // Text(
+                          //   "Date: ${reclamation.date.toLocal().toString().split(' ')[0]}",
+                          //   style: TextStyle(fontSize: 16, color: Colors.grey),
+                          // ),
                         ],
                       ),
                       const SizedBox(height: 16),

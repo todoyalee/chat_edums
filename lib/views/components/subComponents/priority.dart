@@ -7,17 +7,15 @@ class Priority extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine the background color based on the text
     Color backgroundColor;
     if (priorite.toLowerCase() == 'high') {
-      backgroundColor = Colors.red; // Color for "High"
+      backgroundColor = Colors.red;
     } else {
-      backgroundColor = Colors.green; // Color for "Normal"
+      backgroundColor = Colors.green;
     }
 
     return Scaffold(
       body: Center(
-        // Center the CircleAvatar in the body
         child: Container(
           decoration: BoxDecoration(
               color: backgroundColor, borderRadius: BorderRadius.circular(20)),

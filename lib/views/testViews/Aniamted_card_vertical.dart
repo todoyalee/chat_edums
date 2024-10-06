@@ -159,8 +159,7 @@ class ReclamationCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start, // Ensures proper alignment of text
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: Column(
@@ -173,9 +172,8 @@ class ReclamationCard extends StatelessWidget {
                           fontSize: 18,
                           color: Colors.blueAccent,
                         ),
-                        overflow: TextOverflow
-                            .ellipsis, // Ensures text does not overflow
-                        maxLines: 1, // Limits the subject to one line
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
                       SizedBox(height: 8),
                       Text(
@@ -195,9 +193,8 @@ class ReclamationCard extends StatelessWidget {
                       Text(
                         'Description: ${reclamation.description}',
                         style: TextStyle(fontSize: 14),
-                        overflow: TextOverflow
-                            .ellipsis, // Avoids overflow in case of long description
-                        maxLines: 3, // Limits description to 3 lines
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
                       ),
                     ],
                   ),

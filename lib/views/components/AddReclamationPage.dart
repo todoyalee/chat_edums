@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:chat_edums/views/components/Reclamation_structure.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
 class AddReclamationPage extends StatefulWidget {
   final Function(Reclamation) onAdd;
@@ -17,9 +18,10 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String sujet = '';
   String priorite = 'Normal';
   String statut = 'Pending';
+  String sujet = 'Scolarité';
+  bool isUrgent = false; // false means "Normal", true means "Urgent"
   String description = '';
 
   @override
@@ -37,10 +39,7 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/back.jpg"),
-            fit: BoxFit.cover,
-          ),
+          color: Colors.white,
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -48,8 +47,16 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
             key: _formKey,
             child: Column(
               children: [
-                Image.asset("assets/schooll.png"),
-                SizedBox(height: 33),
+                Text(
+                  "New Reclmation",
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30),
+                ),
+                SizedBox(height: 26),
+
+                /*
                 TextFormField(
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
@@ -66,7 +73,20 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                   validator: (value) =>
                       value!.isEmpty ? 'Veuillez entrer un sujet' : null,
                 ),
-                const SizedBox(height: 28.0),
+                */
+
+                buildDropdown('sujet', sujet, (value) {
+                  setState(() {
+                    sujet = value!;
+                  });
+                }, [
+                  DropdownMenuItem(
+                      value: 'Scolarité', child: Text('Scolarité')),
+                  DropdownMenuItem(
+                      value: 'Transport', child: Text('Transport')),
+                ]),
+                const SizedBox(height: 20.0),
+                /*
                 buildDropdown('Priorité', priorite, (value) {
                   setState(() {
                     priorite = value!;
@@ -75,7 +95,50 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                   DropdownMenuItem(value: 'Normal', child: Text('Normal')),
                   DropdownMenuItem(value: 'Urgent', child: Text('Urgent')),
                 ]),
-                const SizedBox(height: 28.0),
+                */
+
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Display current priority
+
+                    /*
+                    Text(
+                      isUrgent ? 'Priority: Urgent' : 'Priority: Normal',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: isUrgent ? Colors.red : Colors.green,
+                      ),
+                    ),
+                    */
+                    SizedBox(height: 18),
+
+                    FlutterSwitch(
+                      value: isUrgent,
+                      onToggle: (value) {
+                        setState(() {
+                          isUrgent = value;
+                        });
+                      },
+                      activeColor: Colors.red,
+                      inactiveColor: Colors.green,
+                      width: 500.0,
+                      height: 40.0,
+                      toggleSize: 30.0,
+                      activeText: "Urgent",
+                      inactiveText: "Normal",
+                      showOnOff: true,
+                    ),
+                    SizedBox(height: 20),
+                    Icon(
+                      isUrgent ? Icons.warning : Icons.check_circle,
+                      color: isUrgent ? Colors.red : Colors.green,
+                      size: 50,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20.0),
+                /*
                 buildDropdown('Statut', statut, (value) {
                   setState(() {
                     statut = value!;
@@ -85,7 +148,7 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                   DropdownMenuItem(value: 'Resolved', child: Text('Resolved')),
                   DropdownMenuItem(value: 'Progress', child: Text('Progress')),
                 ]),
-                const SizedBox(height: 28.0),
+                */
                 TextFormField(
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
@@ -100,28 +163,45 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                   validator: (value) =>
                       value!.isEmpty ? 'Veuillez entrer une description' : null,
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(20),
-                    backgroundColor: Colors.blue,
+                const SizedBox(height: 19),
+                Container(
+                  width: 110,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      widget.onAdd(
-                        Reclamation(
-                          sujet: sujet,
-                          priorite: priorite,
-                          statut: statut,
-                          description: description,
-                          date: DateTime.now(), studentName: '',
-                          //surname: "aaa",
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        side: BorderSide(
+                          color: Colors.blue,
+                          width: 2,
                         ),
-                      );
-                      Navigator.pop(context);
-                    }
-                  },
-                  child: const Text('Ajouter'),
+                      ),
+                      padding: EdgeInsets.all(26),
+                      backgroundColor: Colors.blue,
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        widget.onAdd(
+                          Reclamation(
+                            sujet: sujet,
+                            priorite: priorite,
+                            // statut: statut,
+                            description: description,
+                            //date: DateTime.now(), studentName: '',
+                            //surname: "aaa",
+                          ),
+                        );
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: const Text(
+                      'Send',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
               ],
             ),

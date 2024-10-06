@@ -64,52 +64,75 @@ class _ReclamationPageState extends State<ReclamationPage> {
           ),
         ),
         child: Column(
+          //mainAxisAlignment: MainAxisAlignment.end,
+          //mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Center(
-              child: Card(
-                elevation: 3,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        //"Filtrer",
-                        "", style: TextStyle(fontSize: 16),
-                      ),
-                      const SizedBox(width: 10),
-                      Icon(Icons.filter_list, color: Colors.blueAccent),
-                      const SizedBox(width: 5),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          hint: const Text("Sélectionner"),
-                          value: filterPriority,
-                          icon: const Icon(Icons.arrow_drop_down,
-                              color: Colors.blueAccent),
-                          items: const [
-                            DropdownMenuItem(
-                                value: null, child: Text('Filter')),
-                            DropdownMenuItem(
-                                value: 'Normal', child: Text('Normal')),
-                            DropdownMenuItem(
-                                value: 'Urgent', child: Text('Urgent')),
-                          ],
-                          onChanged: filterReclamations,
-                          dropdownColor: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          style:
-                              TextStyle(color: Colors.blueAccent, fontSize: 16),
+            SizedBox(
+              height: 23,
+            ),
+            // Center(
+            //   child:
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Card(
+                  elevation: 13,
+                  color: Colors.white,
+                  //3
+
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: Colors.blue,
+                      )),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.filter_alt_outlined,
+                            color: Colors.blueAccent),
+                        const SizedBox(width: 20),
+                        DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            hint: const Text("Sélectionner"),
+                            value: filterPriority,
+                            icon: SizedBox(),
+                            items: const [
+                              DropdownMenuItem(
+                                  value: null,
+                                  child: Text(
+                                    'Filter',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  )),
+                              DropdownMenuItem(
+                                  value: 'Normal',
+                                  child: Text('Normal',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold))),
+                              DropdownMenuItem(
+                                  value: 'Urgent',
+                                  child: Text('Urgent',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold))),
+                            ],
+                            onChanged: filterReclamations,
+                            dropdownColor: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            style: TextStyle(
+                                color: Colors.blueAccent, fontSize: 16),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
+            //),
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.all(8.0),
@@ -137,7 +160,7 @@ class _ReclamationPageState extends State<ReclamationPage> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.63,
+                  height: MediaQuery.of(context).size.height * 0.73,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 5.0),

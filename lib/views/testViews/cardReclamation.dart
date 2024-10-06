@@ -81,9 +81,7 @@ class _ReclamationPageState extends State<ReclamationPage> {
         ),
         child: Column(
           children: [
-            //   Padding(
-            //padding: const EdgeInsets.all(60.0),
-            //child:
+            
             DropdownButton<String>(
               hint: const Text("Filtrer par priorité"),
               value: filterPriority,
@@ -134,7 +132,6 @@ class ReclamationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Set the border color based on the priority
     Color borderColor =
         reclamation.priorite == 'Urgent' ? Colors.red : Colors.grey;
 
@@ -143,10 +140,10 @@ class ReclamationCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
         side: BorderSide(
-            color: borderColor, width: 2), // Set the border color here
+            color: borderColor, width: 2)
       ),
       elevation: 5,
-      color: Colors.white.withOpacity(0.9), // Keep the card color unchanged
+      color: Colors.white.withOpacity(0.9),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
@@ -171,7 +168,7 @@ class ReclamationCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     color: reclamation.priorite == 'Urgent'
-                        ? Colors.black // Keep the text color for urgency
+                        ? Colors.black 
                         : Colors.black,
                   ),
                 ),
@@ -212,7 +209,7 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
 
   String sujet = '';
   String priorite = 'Normal';
-  String statut = 'En attente'; // Default status
+  String statut = 'En attente';
   String description = '';
 
   void initState() {
@@ -259,7 +256,6 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                       value!.isEmpty ? 'Veuillez entrer un sujet' : null,
                 ),
                 const SizedBox(height: 35.0),
-                // Priority Dropdown
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -288,7 +284,6 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                   ),
                 ),
                 const SizedBox(height: 35.0),
-                // Status Dropdown
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -320,7 +315,6 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                   ),
                 ),
                 const SizedBox(height: 35.0),
-                // Description Text Field
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Description',
@@ -334,7 +328,6 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                       value!.isEmpty ? 'Veuillez entrer une description' : null,
                 ),
                 const SizedBox(height: 60),
-                // Add Button
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.all(30),
@@ -346,7 +339,7 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                         Reclamation(
                           sujet: sujet,
                           priorite: priorite,
-                          statut: statut, // Include statut here
+                          statut: statut, 
                           description: description,
                         ),
                       );

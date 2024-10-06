@@ -38,6 +38,8 @@ dependencies:
   dio: ^5.7.0
   intl: ^0.19.0
   vertical_card_pager: ^1.6.2
+  flutter_switch: ^0.3.2
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:
@@ -63,12 +65,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/stand.jpg
-    - assets/schooll.png
-    - assets/back.jpg
-    - assets/r.png
-    - assets/c2.jpg
-    - assets/kids.jpg
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

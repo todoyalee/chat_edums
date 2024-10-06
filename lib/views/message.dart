@@ -11,7 +11,6 @@ class message extends StatefulWidget {
 }
 
 class _messageState extends State<message> {
-  // List of messages with their details
 
   @override
   Widget build(BuildContext context) {
