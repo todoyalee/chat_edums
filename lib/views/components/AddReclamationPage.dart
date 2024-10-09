@@ -118,6 +118,9 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                       onToggle: (value) {
                         setState(() {
                           isUrgent = value;
+                          priorite = value
+                              ? "Urgent"
+                              : "Normal"; // Change priority based on toggle
                         });
                       },
                       activeColor: Colors.red,

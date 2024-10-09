@@ -14,6 +14,7 @@ class ReclamationCard extends StatefulWidget {
 class _ReclamationCardState extends State<ReclamationCard> {
   bool _isExpanded = false;
   bool _isExpanded2 = false;
+  String statut = "Progress";
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +22,10 @@ class _ReclamationCardState extends State<ReclamationCard> {
         widget.reclamation.priorite == 'Urgent' ? Colors.red : Colors.green;
 
     /*
-      Color statusColor = widget.reclamation.statut == 'Resolved'
-          ? Colors.green.withOpacity(0.7)
-          : Colors.red.withOpacity(0.3);
-          */
+    Color statusColor = widget.reclamation.statut == 'Resolved'
+        ? Colors.green.withOpacity(0.7)
+        : Colors.red.withOpacity(0.3);
+        */
 
     List<String> descriptionWords = widget.reclamation.description.split(' ');
     bool isLongDescription = descriptionWords.length > 5;
@@ -57,7 +58,7 @@ class _ReclamationCardState extends State<ReclamationCard> {
               if (widget.reclamation.priorite == 'Normal')
                 Container(
                   height: 8,
-                  // i don't know if i shall put a color or not
+// i don't know if i shall put a color or not
                   width: double.infinity,
                   //color: Colors.green,
                 ),
@@ -73,32 +74,36 @@ class _ReclamationCardState extends State<ReclamationCard> {
                           style: TextStyle(
                               color: Colors.grey, fontWeight: FontWeight.bold),
                         ),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Image.asset("assets/schooll.png",
                             width: 71, height: 80, fit: BoxFit.cover),
                       ],
                     ),
-                    const SizedBox(width: 104),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: widget.reclamation.priorite == 'Urgent'
-                                ? Colors.red
-                                : Colors.green,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            ' ${widget.reclamation.priorite}',
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                    ),
+                    const SizedBox(width: 135),
+
+                    // Column(
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: [
+                    //     Container(
+                    //       padding: const EdgeInsets.symmetric(
+                    //           horizontal: 8, vertical: 4),
+                    //       decoration: BoxDecoration(
+                    //         color: widget.reclamation.priorite == 'Urgent'
+                    //             ? Colors.red
+                    //             : Colors.green,
+                    //         borderRadius: BorderRadius.circular(20),
+                    //       ),
+                    //       child: Text(
+                    //         ' ${widget.reclamation.priorite}',
+                    //         style: const TextStyle(
+                    //             color: Colors.white,
+                    //             fontWeight: FontWeight.bold),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -143,68 +148,101 @@ class _ReclamationCardState extends State<ReclamationCard> {
                         ),
                       ],
                     ),
-                    const SizedBox(width: 6),
+                    const SizedBox(width: 15),
                     Column(
                       children: [
-                        /*
-                          Opacity(
-                            opacity: 0.4,
-                            child: 
-                            
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 1, vertical: 1),
-                              decoration: BoxDecoration(
-                                color: widget.reclamation.statut == 'Progress'
-                                    ? Colors.orange
-                                    : widget.reclamation.statut == 'Pending'
-                                        ? Colors.red
-                                        : Colors.green,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                ' ${widget.reclamation.statut}',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
+                        Opacity(
+                          opacity: 0.4,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 1, vertical: 1),
+                            decoration: BoxDecoration(
+                              color: statut == 'Progress'
+                                  ? Colors.orange
+                                  : statut == 'Pending'
+                                      ? Colors.red
+                                      : Colors.green,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              ' ${statut}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
                             ),
-
-                            
                           ),
-                          */
-                        const SizedBox(width: 50),
+                        ),
+                        const SizedBox(
+                          width: 120,
+                          //height: 400,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //color: widget.reclamation.priorite == 'Urgent'
+                        if (widget.reclamation.priorite == 'Normal')
+                          Container(
+                            height: 20,
+                            color: Colors.green,
+                            width: 60, // Adjust width as needed
+                            child: Center(
+                                child: Text('Normal',
+                                    style: TextStyle(color: Colors.white))),
+                          )
+                        else
+                          Container(
+                            height: 20,
+                            color: Colors.red,
+                            width: 60, // Adjust width as needed
+                            child: Center(
+                                child: Text('Urgent',
+                                    style: TextStyle(color: Colors.white))),
+                          ),
+                        // Additional containers for visual representation
+                        ...List.generate(
+                          widget.reclamation.priorite == 'Normal'
+                              ? 3
+                              : 5, // 3 for normal, 5 for urgent
+                          (index) => Container(
+                            margin: EdgeInsets.only(top: 4.0),
+                            height: 15,
+                            color: widget.reclamation.priorite == 'Normal'
+                                ? Colors.green
+                                : Colors.red,
+                            width: 35, // Adjust width as needed
+                          ),
+                        ),
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         /*
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: widget.reclamation.priorite == 'Urgent'
-                                  ? Colors.red
-                                  : Colors.green,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Icon(Icons.check),
-
-
-
-                            // Text(
-                            //   ' ${widget.reclamation.priorite}',
-                            //   style: const TextStyle(
-                            //       color: Colors.white,
-                            //       fontWeight: FontWeight.bold),
-                            // ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: widget.reclamation.priorite == 'Urgent'
+                                ? Colors.red
+                                : Colors.green,
+                            borderRadius: BorderRadius.circular(20),
                           ),
+                          child: Icon(Icons.check),
 
-                          
-                          */
+
+
+                          // Text(
+                          //   ' ${widget.reclamation.priorite}',
+                          //   style: const TextStyle(
+                          //       color: Colors.white,
+                          //       fontWeight: FontWeight.bold),
+                          // ),
+                        ),
+                        */
 
                         // Container(
                         //   padding: const EdgeInsets.symmetric(

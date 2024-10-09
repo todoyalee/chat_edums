@@ -116,7 +116,7 @@ class _ReclamationPageState extends State<ReclamationPage> {
                               DropdownMenuItem(
                                   value: 'Urgent',
                                   child: Text('Urgent',
-                                      style: TextStyle(
+                                      style: TextStyle( 
                                           fontWeight: FontWeight.bold))),
                             ],
                             onChanged: filterReclamations,
