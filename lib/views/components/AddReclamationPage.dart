@@ -103,7 +103,7 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                           padding: EdgeInsets.symmetric(vertical: 15),
                           decoration: BoxDecoration(
                             color: isYearlySelected
-                                ? Colors.black
+                                ? Colors.green
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(30.0),
                           ),
@@ -137,7 +137,7 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                           decoration: BoxDecoration(
                             color: isYearlySelected
                                 ? Colors.transparent
-                                : Colors.black,
+                                : Colors.red,
                             borderRadius: BorderRadius.circular(30.0),
                           ),
                           child: Center(
@@ -242,20 +242,20 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                 ),
                 const SizedBox(height: 19),
                 Container(
-                  width: 110,
+                  width: 180,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(40),
                   ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(17),
                         side: BorderSide(
                           color: Colors.blue,
                           width: 2,
                         ),
                       ),
-                      padding: EdgeInsets.all(26),
+                      padding: EdgeInsets.all(22),
                       backgroundColor: Colors.blue,
                     ),
                     onPressed: () {
@@ -276,7 +276,9 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                     child: const Text(
                       'Send',
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.white),
                     ),
                   ),
                 ),

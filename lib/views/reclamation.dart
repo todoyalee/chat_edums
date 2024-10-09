@@ -77,19 +77,19 @@ class _ReclamationPageState extends State<ReclamationPage> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Card(
-                  elevation: 13,
-                  color: Colors.white,
-                  //3
+                    elevation: 13,
+                    color: Colors.white,
+                    //3
 
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: BorderSide(
-                        color: Colors.blue,
-                      )),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-                    child: Row(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(
+                          color: Colors.blue,
+                        )),
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+                      child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(Icons.filter_alt_outlined,
@@ -161,7 +161,7 @@ class _ReclamationPageState extends State<ReclamationPage> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.73,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 5.0),
