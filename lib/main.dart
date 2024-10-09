@@ -1,157 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:chat_edums/routes/app_routes.dart';
+import 'package:chat_edums/views/reclamation.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // Root widget of the application
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Yearly/Monthly Toggle',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: SwitchToggleDemo(),
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      initialRoute: AppRoutes.reclamationScreen,
+      getPages: AppRoutes.pages,
     );
   }
 }
 
-class SwitchToggleDemo extends StatefulWidget {
-  @override
-  _SwitchToggleDemoState createState() => _SwitchToggleDemoState();
-}
-
-class _SwitchToggleDemoState extends State<SwitchToggleDemo> {
-  // Tracks the selected toggle (Yearly or Monthly)
-  bool isYearlySelected = true;
-
-  // Tracks the switch state
-  bool isSwitchOn = false;
-
+class PendingIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Subscription Options'),
-        centerTitle: true,
+    return Container(
+      width: 10,
+      height: 10,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.grey[350],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            // Custom Toggle Container
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius:
-                    BorderRadius.circular(30.0), // Circular border radius
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 4,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  // Yearly Button
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isYearlySelected = true;
-                        });
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        decoration: BoxDecoration(
-                          color: isYearlySelected
-                              ? Colors.black
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Yearly',
-                            style: TextStyle(
-                              color: isYearlySelected
-                                  ? Colors.white
-                                  : Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Monthly Button
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isYearlySelected = false;
-                        });
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        decoration: BoxDecoration(
-                          color: isYearlySelected
-                              ? Colors.transparent
-                              : Colors.black,
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Monthly',
-                            style: TextStyle(
-                              color: isYearlySelected
-                                  ? Colors.black
-                                  : Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          for (int i = 0; i < 3; i++)
+            Positioned(
+              left: i * 20.0,
+              child: Container(
+                  width: 15,
+                  height: 15,
+                  //color: Colors.primaries[i % Colors.primaries.length],
+                  color: Colors.blue),
             ),
-            SizedBox(height: 40), // Space between toggle and switch
-            // Customized Switch
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Enable Feature',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black87,
-                  ),
-                ),
-                SizedBox(width: 10),
-                Switch(
-                  value: isSwitchOn,
-                  onChanged: (value) {
-                    setState(() {
-                      isSwitchOn = value;
-                    });
-                  },
-                  activeColor: Colors.black,
-                  activeTrackColor: Colors.black54,
-                  inactiveThumbColor: Colors.grey.shade600,
-                  inactiveTrackColor: Colors.grey,
-                ),
-              ],
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }

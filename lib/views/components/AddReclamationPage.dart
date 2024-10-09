@@ -23,6 +23,7 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
   String sujet = 'Scolarité';
   bool isUrgent = false; // false means "Normal", true means "Urgent"
   String description = '';
+  bool isYearlySelected = true;
 
   @override
   void initState() {
@@ -86,6 +87,77 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                       value: 'Transport', child: Text('Transport')),
                 ]),
                 const SizedBox(height: 20.0),
+                Row(
+                  children: [
+                    // Yearly Button
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isYearlySelected = true;
+                            isUrgent = false;
+                            priorite = "Normal";
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          decoration: BoxDecoration(
+                            color: isYearlySelected
+                                ? Colors.black
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Normal',
+                              style: TextStyle(
+                                color: isYearlySelected
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Monthly Button
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isYearlySelected = false;
+                            isUrgent = true;
+                            priorite = "Urgent";
+                          });
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          decoration: BoxDecoration(
+                            color: isYearlySelected
+                                ? Colors.transparent
+                                : Colors.black,
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Urgent',
+                              style: TextStyle(
+                                color: isYearlySelected
+                                    ? Colors.black
+                                    : Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
                 /*
                 buildDropdown('Priorité', priorite, (value) {
                   setState(() {
@@ -97,12 +169,9 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                 ]),
                 */
 
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Display current priority
+                // Display current priority
 
-                    /*
+                /*
                     Text(
                       isUrgent ? 'Priority: Urgent' : 'Priority: Normal',
                       style: TextStyle(
@@ -111,6 +180,10 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                       ),
                     ),
                     */
+                /*    
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     SizedBox(height: 18),
 
                     FlutterSwitch(
@@ -140,6 +213,7 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                     ),
                   ],
                 ),
+                */
                 const SizedBox(height: 20.0),
                 /*
                 buildDropdown('Statut', statut, (value) {

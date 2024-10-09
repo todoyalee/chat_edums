@@ -4,6 +4,7 @@ import 'package:chat_edums/views/components/appBar.dart';
 import 'package:chat_edums/views/components/AddReclamationPage.dart';
 import 'package:get/get.dart';
 import 'package:chat_edums/views/components/Reclamation_structure.dart';
+import 'package:chat_edums/views/components/subComponents/switchAndToogle.dart';
 
 class ReclamationApp extends StatelessWidget {
   @override
@@ -116,7 +117,7 @@ class _ReclamationPageState extends State<ReclamationPage> {
                               DropdownMenuItem(
                                   value: 'Urgent',
                                   child: Text('Urgent',
-                                      style: TextStyle( 
+                                      style: TextStyle(
                                           fontWeight: FontWeight.bold))),
                             ],
                             onChanged: filterReclamations,
