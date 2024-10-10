@@ -50,28 +50,23 @@ class _ReclamationCardState extends State<ReclamationCard> {
                   children: [
                     Row(
                       children: [
-                        SizedBox(
-                          width: 5,
-                        ),
                         Text(
-                          //"ID: ${widget.reclamation.id}", // Display ID
-                          "Id-dali",
+                          //"ID: ${widget.reclamation.id}"
+                          "", // Display ID
                           style: TextStyle(
                               color: Colors.grey, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(width: 120),
-                        //Expanded(
-                        //child:
-                        Text(
-                          '${widget.reclamation.sujet}',
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 23),
-                          overflow: TextOverflow.ellipsis,
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: Text(
+                            '${widget.reclamation.sujet}',
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 23),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                        SizedBox(width: 120),
-                        //),
                         CircularBar1(
                             totalSteps: _totalSegments,
                             currentStep: _filledSegments),
@@ -82,7 +77,7 @@ class _ReclamationCardState extends State<ReclamationCard> {
                       children: [
                         Image.asset("assets/schooll.png",
                             width: 71, height: 80, fit: BoxFit.cover),
-                        SizedBox(width: 30),
+                        SizedBox(width: 10),
                         Expanded(
                           child: Text(
                             _isExpanded || !isLongDescription
@@ -122,7 +117,7 @@ class _ReclamationCardState extends State<ReclamationCard> {
               // New Container on the right
               Container(
                 width: 30,
-                height: 115,
+                height: 125,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: widget.reclamation.priorite == 'Urgent'
