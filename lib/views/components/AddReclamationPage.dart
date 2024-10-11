@@ -87,77 +87,120 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                       value: 'Transport', child: Text('Transport')),
                 ]),
                 const SizedBox(height: 20.0),
-                Row(
-                  children: [
-                    // Yearly Button
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isYearlySelected = true;
-                            isUrgent = false;
-                            priorite = "Normal";
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          decoration: BoxDecoration(
-                            color: isYearlySelected
-                                ? Colors.green
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Normal',
-                              style: TextStyle(
-                                color: isYearlySelected
-                                    ? Colors.white
-                                    : Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                Container(
+                  padding:
+                      EdgeInsets.all(5), 
+                  decoration: BoxDecoration(
+                    color: Colors.white, 
+                    borderRadius: BorderRadius.circular(50.0),
+                    border: Border.all(
+                      color: isYearlySelected
+                          ? Colors.green 
+                          : isUrgent
+                              ? Colors.red
+                              : Colors.grey.shade300, 
+                      width: 2.0, 
                     ),
-                    // Monthly Button
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isYearlySelected = false;
-                            isUrgent = true;
-                            priorite = "Urgent";
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          decoration: BoxDecoration(
-                            color: isYearlySelected
-                                ? Colors.transparent
-                                : Colors.red,
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Urgent',
-                              style: TextStyle(
-                                color: isYearlySelected
-                                    ? Colors.black
-                                    : Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
 
+                  child: Row(
+                    children: [
+                      // Normal Button
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isYearlySelected = true;
+                              isUrgent = false;
+                              priorite = "Normal";
+                            });
+                          },
+                          child: AnimatedContainer(
+                            duration: Duration(milliseconds: 300),
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            decoration: BoxDecoration(
+                              color: isYearlySelected
+                                  ? Colors.green
+                                  : Colors.white,
+                              borderRadius: BorderRadius.circular(50.0),
+                              border: Border.all(
+                                color: isYearlySelected
+                                    ? Colors.green
+                                    : Colors.white,
+                                width: 2.0,
+                              ),
+                              boxShadow: isYearlySelected
+                                  ? [
+                                      BoxShadow(
+                                        color: Colors.green.withOpacity(0.4),
+                                        blurRadius: 10,
+                                        offset: Offset(0, 4),
+                                      )
+                                    ]
+                                  : [],
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Normal',
+                                style: TextStyle(
+                                  color: isYearlySelected
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10), 
+                      
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isYearlySelected = false;
+                              isUrgent = true;
+                              priorite = "Urgent";
+                            });
+                          },
+                          child: AnimatedContainer(
+                            duration: Duration(milliseconds: 300),
+                            padding: EdgeInsets.symmetric(vertical: 15),
+                            decoration: BoxDecoration(
+                              color: isUrgent ? Colors.red : Colors.white,
+                              borderRadius: BorderRadius.circular(50.0),
+                              border: Border.all(
+                                color: isUrgent ? Colors.red : Colors.white,
+                                width: 2.0,
+                              ),
+                              boxShadow: isUrgent
+                                  ? [
+                                      BoxShadow(
+                                        color: Colors.red.withOpacity(0.4),
+                                        blurRadius: 10,
+                                        offset: Offset(0, 4),
+                                      )
+                                    ]
+                                  : [],
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Urgent',
+                                style: TextStyle(
+                                  color: isUrgent ? Colors.white : Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 /*
                 buildDropdown('Priorité', priorite, (value) {
                   setState(() {
@@ -255,7 +298,7 @@ class _AddReclamationPageState extends State<AddReclamationPage> {
                           width: 2,
                         ),
                       ),
-                      padding: EdgeInsets.all(22),
+                      padding: EdgeInsets.all(14),
                       backgroundColor: Colors.blue,
                     ),
                     onPressed: () {

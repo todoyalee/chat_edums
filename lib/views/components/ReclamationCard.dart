@@ -15,8 +15,8 @@ class ReclamationCard extends StatefulWidget {
 
 class _ReclamationCardState extends State<ReclamationCard> {
   bool _isExpanded = false;
-  final int _totalSegments = 5; // Total segments in the progress bar
-  int _filledSegments = 3; // Default filled segments for normal
+  final int _totalSegments = 8; 
+  int _filledSegments = 5; 
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +72,13 @@ class _ReclamationCardState extends State<ReclamationCard> {
                         ),
                         SizedBox(width: 120),
                         //),
-                        CircularBar1(
-                            totalSteps: _totalSegments,
-                            currentStep: _filledSegments),
+
+                        // CircularBar1(
+                        //     totalSteps: _totalSegments,
+                        //     currentStep: _filledSegments),
+
+
+                        Pendin(),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -85,9 +89,7 @@ class _ReclamationCardState extends State<ReclamationCard> {
                         SizedBox(width: 30),
                         Expanded(
                           child: Text(
-                            _isExpanded || !isLongDescription
-                                ? '${widget.reclamation.description}'
-                                : '${descriptionWords.take(2).join(' ')}...',
+                            '${widget.reclamation.description}',
                             style: TextStyle(
                                 color: Colors.black.withOpacity(0.3),
                                 fontWeight: FontWeight.bold),
@@ -95,17 +97,6 @@ class _ReclamationCardState extends State<ReclamationCard> {
                         ),
                       ],
                     ),
-                    if (isLongDescription)
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _isExpanded = !_isExpanded;
-                          });
-                        },
-                        child: Text(_isExpanded ? 'Show less' : 'Show more',
-                            style: TextStyle(color: Colors.blue)),
-                      ),
-                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -119,10 +110,13 @@ class _ReclamationCardState extends State<ReclamationCard> {
                   ],
                 ),
               ),
-              // New Container on the right
+              SizedBox(
+                width: 10,
+              ),
+              
               Container(
                 width: 30,
-                height: 115,
+                height: 185,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: widget.reclamation.priorite == 'Urgent'
@@ -158,7 +152,7 @@ class _ReclamationCardState extends State<ReclamationCard> {
 
                     if (widget.reclamation.priorite == 'Urgent') {
                       _filledSegments = _filledSegments +
-                          2; // Increment filled segments for urgent
+                          2; 
                     }
 
                     if (index < _filledSegments) {
@@ -172,7 +166,7 @@ class _ReclamationCardState extends State<ReclamationCard> {
                     return _buildSegment(segmentColor);
                   })
                       .reversed
-                      .toList(), // Reverse the list to fill from bottom to top
+                      .toList(), 
                 ),
               ),
             ],
@@ -240,6 +234,76 @@ class CircularBar1 extends StatelessWidget {
         selectedColor: Colors.orange,
         unselectedColor: Colors.grey,
         roundedCap: (_, isSelected) => isSelected,
+      ),
+    );
+  }
+}
+
+class Pendin extends StatelessWidget {
+  const Pendin({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 72,
+          height: 52,
+          child: CircleAvatar(
+            backgroundColor: Colors.grey[200],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    shape: BoxShape.rectangle, 
+                  ),
+                ),
+                SizedBox(width: 10),
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    shape: BoxShape.rectangle,
+                  ),
+                ),
+                SizedBox(width: 10),
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    shape: BoxShape.rectangle,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class Complete extends StatelessWidget {
+  const Complete({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 40,
+      height: 40,
+      child: CircleAvatar(
+        backgroundColor: Colors.grey[300],
+        child: Icon(
+          Icons.done,
+          color: Colors.green,
+          size: 43,
+        ),
       ),
     );
   }
